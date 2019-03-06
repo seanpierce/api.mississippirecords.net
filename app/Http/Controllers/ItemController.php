@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Item as Item;
 
 class ItemController extends Controller
 {
@@ -24,7 +25,7 @@ class ItemController extends Controller
 
     public function getAll() 
     {
-        $results = app('db')->select("SELECT * FROM items");
+        $results = Item::all();
         return json_encode($results);
     }
 
