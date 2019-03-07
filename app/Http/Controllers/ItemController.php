@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 
 class ItemController extends Controller
 {
+    private $auth;
     /**
      * Create a new controller instance.
      *
@@ -15,7 +16,7 @@ class ItemController extends Controller
      */
     public function __construct()
     {
-        //
+        $this->auth = new AuthController;
     }
 
     public function getById($id)
@@ -25,8 +26,10 @@ class ItemController extends Controller
 			->header('Content-Type', 'json');
     }
 
-    public function getAll() 
+    public function getAll(Request $request) 
     {
+        $this->auth->auth_admin($request);
+
         $items = Item::all();
 		return response($items, 200)
 			->header('Content-Type', 'json');
