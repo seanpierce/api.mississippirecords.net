@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item as Item;
+use App\Models\Order as Order;
 
 class OrderConfirmationItem
 {
@@ -19,6 +20,7 @@ class OrderConfirmationItem
 
 class OrderController extends Controller
 {
+	private $auth;
     /**
      * Create a new controller instance.
      *
@@ -26,11 +28,21 @@ class OrderController extends Controller
      */
     public function __construct()
     {
-        //
+        $this->auth = new AuthController;
+	}
+
+	public function get_orders(Request $request)
+	{
+		$this->auth->auth_admin($request);
+
+		$orders = Order::orderBy('order_date', 'DESC')->get();
+
+		return response(json_encode($orders), 200)
+			->header('Content-Type', 'json');
 	}
 	
-   public function confirm_order_details(Request $request) 
-   {	
+	public function confirm_order_details(Request $request) 
+	{	
 		$b2b = $request->b2b;
 		
 		// get items
@@ -63,15 +75,17 @@ class OrderController extends Controller
 
 		return response(json_encode($response), 200)
 			->header('Content-Type', 'json');
-   }
+	}
 
-   public function get_stripe_details(Request $request) 
-   {
+	public function get_stripe_details(Request $request) 
+	{
+		$this->auth->auth_admin($request);
+
 		$key = config('STRIPE_SECRET_KEY');
 		\Stripe\Stripe::setApiKey($key);
 
 		$order = \Stripe\Charge::retrieve($request->StripeTransactionId);
 		return response(json_encode($order), 200)
 			->header('Content-Type', 'json');
-   }
+	}
 }

@@ -28,8 +28,6 @@ class ItemController extends Controller
 
     public function getAll(Request $request) 
     {
-        $this->auth->auth_admin($request);
-
         $items = Item::all();
 		return response($items, 200)
 			->header('Content-Type', 'json');
@@ -37,6 +35,8 @@ class ItemController extends Controller
 
     public function create(Request $request)
     {
+        $this->auth->auth_admin($request);
+        
         Item::create(array_merge($request->all(), ['index' => 'value']));
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');
@@ -44,6 +44,8 @@ class ItemController extends Controller
 	
 	public function update(Request $request)
     {
+        $this->auth->auth_admin($request);
+
 		$id = $request->id;
 		$item = Item::findOrFail($id);
 		$item->update(array_merge($request->all(), ['index' => 'value']));
@@ -53,6 +55,8 @@ class ItemController extends Controller
 	
 	public function delete($id)
     {
+        $this->auth->auth_admin($request);
+
 		$item = Item::findOrFail($id);
 		$item->delete();
 		return response(json_encode(true), 200)

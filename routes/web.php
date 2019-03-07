@@ -15,23 +15,24 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-// Item Routes
-$router->get('item', 'ItemController@getAll');
-$router->get('item/{id}', 'ItemController@getById');
-$router->post('item', 'ItemController@create');
-$router->put('item', 'ItemController@update');
-$router->delete('item/{id}', 'ItemController@delete');
+// Items Routes
+$router->get('items', 'ItemController@getAll');
+$router->get('items/{id}', 'ItemController@getById');
+$router->post('items', 'ItemController@create');
+$router->put('items', 'ItemController@update');
+$router->delete('items/{id}', 'ItemController@delete');
 
-// featured Items Routes
-$router->get('item/featured', 'FeaturedItemController@getAll');
-$router->post('item/featured', 'FeaturedItemController@create');
-$router->delete('item/featured/{id}', 'FeaturedItemController@delete');
+// Featured Items Routes
+$router->get('items/featured', 'FeaturedItemController@getAll');
+$router->post('items/featured', 'FeaturedItemController@create');
+$router->delete('items/featured/{id}', 'FeaturedItemController@delete');
 
 
-// Order Routes
-$router->post('order/confirm', 'OrderController@confirm_order_details');
-$router->post('order/getstripedetails', 'OrderController@get_stripe_details');
+// Orders Routes
+$router->get('orders', 'OrderController@get_orders');
+$router->post('orders/confirm', 'OrderController@confirm_order_details');
+$router->post('orders/getstripedetails', 'OrderController@get_stripe_details');
 
-// User Routes
+// Users Routes
 $router->post('login', 'UserController@login');
-$router->post('user', 'UserController@get_user');
+$router->post('users', 'UserController@get_user');
