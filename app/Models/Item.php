@@ -6,8 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-    public $id;
-    public $artist;
-    public $title;
-    public $timestamps;
+    protected $fillable = ['artist', 'title'];
 }
