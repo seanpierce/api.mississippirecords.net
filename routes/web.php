@@ -30,3 +30,8 @@ $router->delete('item/featured/{id}', 'FeaturedItemController@delete');
 
 // Order Routes
 $router->post('order/confirm', 'OrderController@confirm_order_details');
+$router->post('order/getstripedetails', 'OrderController@get_stripe_details');
+
+// User Routes
+$router->post('login', 'UserController@login');
+$router->post('user', 'UserController@get_user');

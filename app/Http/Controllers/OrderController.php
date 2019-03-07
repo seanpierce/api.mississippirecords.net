@@ -64,4 +64,14 @@ class OrderController extends Controller
 		return response(json_encode($response), 200)
 			->header('Content-Type', 'json');
    }
+
+   public function get_stripe_details(Request $request) 
+   {
+		$key = config('STRIPE_SECRET_KEY');
+		\Stripe\Stripe::setApiKey($key);
+
+		$order = \Stripe\Charge::retrieve($request->StripeTransactionId);
+		return response(json_encode($order), 200)
+			->header('Content-Type', 'json');
+   }
 }
