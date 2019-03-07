@@ -21,3 +21,8 @@ $router->get('item/{id}', 'ItemController@getById');
 $router->post('item', 'ItemController@create');
 $router->put('item', 'ItemController@update');
 $router->delete('item/{id}', 'ItemController@delete');
+
+// featured Items Routes
+$router->get('item/featured', 'FeaturedItemController@getAll');
+$router->post('item/featured', 'FeaturedItemController@create');
+$router->delete('item/featured/{id}', 'FeaturedItemController@delete');
