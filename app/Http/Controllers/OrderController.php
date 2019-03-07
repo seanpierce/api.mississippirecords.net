@@ -23,7 +23,7 @@ class OrderController extends Controller
 	{
 		$this->auth->auth_admin($request);
 
-		$orders = Order::orderBy('order_date', 'DESC')->get();
+		$orders = Order::orderBy('created_at', 'DESC')->get();
 
 		return response(json_encode($orders), 200)
 			->header('Content-Type', 'json');
@@ -80,7 +80,7 @@ class OrderController extends Controller
 	public function mark_shipped(Request $request)
 	{
 		$this->auth->auth_admin($request);
-		
+
 		$id = $request->id;
 		$order = Order::findOrFail($id);
 
@@ -91,6 +91,63 @@ class OrderController extends Controller
 
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');
+	}
+
+	public function make_payment(Request $request)
+	{
+		$this->validate($request, [
+			'name' => 'required',
+			'email' => 'required',
+			'line_item_details' => 'required',
+			'shipping_address' => 'required',
+			'shipping_city' => 'required',
+			'shipping_state' => 'required',
+			'shipping_zip' => 'required',
+			'order_total' => 'required',
+			'shipping_total' => 'required',
+			'tax' => 'required',
+			'cc_number' => 'required',
+			'stripe_token' => 'required',
+		]);
+
+		// create a new order from the request and save it
+		$order = new Order;
+		$order->customer_name = $request->name;
+		$order->email = $request->email;
+		$order->order_number = $order->generate_order_number();
+		$order->line_item_details = $order->get_line_item_details($request->line_item_details);
+		$order->shipping_address = $request->shipping_address;
+		$order->shipping_city = $request->shipping_city;
+		$order->shipping_state = $request->shipping_state;
+		$order->shipping_zip = $request->shipping_zip;
+		$order->order_total = $request->order_total;
+		$order->shipping_total = $request->shipping_total;
+		$order->tax = $request->tax;
+		$order->class = $request->b2b ? 'b2b' : 'direct';
+		
+		$key = config('STRIPE_SECRET_KEY');
+		\Stripe\Stripe::setApiKey($key);
+
+		$charge = \Stripe\Charge::create([
+			'amount' => $xxx,
+			'currency' => 'usd',
+			'description' => "Order: $order->order_number | Customer: $order->customer_name",
+			'source' => $xxx->token,
+			'receipt_email' => $xxx->email,
+		]);
+
+		$paid = $charge['paid'] === true;
+	
+		if (!$paid) {
+			return response(json_encode(false), 401)
+				->header('Content-Type', 'json');
+		}
+
+		// update order record to include stripe transaction ID
+
+		// decrement stock
+
+		// send order confirmation email
 	}
 }
 
