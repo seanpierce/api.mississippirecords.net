@@ -26,3 +26,7 @@ $router->delete('item/{id}', 'ItemController@delete');
 $router->get('item/featured', 'FeaturedItemController@getAll');
 $router->post('item/featured', 'FeaturedItemController@create');
 $router->delete('item/featured/{id}', 'FeaturedItemController@delete');
+
+
+// Order Routes
+$router->post('order/confirm', 'OrderController@confirm_order_details');
