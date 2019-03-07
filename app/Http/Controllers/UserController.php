@@ -44,13 +44,18 @@ class UserController extends Controller
 		if (password_verify($request->password, $hash->password_hash)) {
 			// login success
 			// create and store token
-			$token = new Token;
-			$token->generate($user->id);
+			$token = Token::where('user_id', $user->id)->first();
+
+			if (!$token)
+				$token = new Token;
+
+			$token->token = $this->generate_token();
+			$token->user_id = $user->id;
 			$token->save();
 
+			// return data to f/e with token
 			$login_response = $this->login_response($user, $token);
 
-			// return data to f/e with token
 			return response(json_encode($login_response), 200)
 				->header('Content-Type', 'json');
 		} else {
@@ -67,5 +72,10 @@ class UserController extends Controller
 		$response['token'] = $token->token;
 
 		return $response;
+   }
+
+   private function generate_token() 
+   {
+	   return bin2hex(random_bytes(16)) . "-" . time();
    }
 }

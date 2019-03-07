@@ -11,10 +11,4 @@ class Token extends Model
 		'user_id', 
 		'token'
 	];
-
-	public function generate($id)
-	{
-		$this->user_id = $id;
-		$this->token = bin2hex(random_bytes(16)) . "-" . time();
-	}
 }
