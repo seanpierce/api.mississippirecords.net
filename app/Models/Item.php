@@ -6,5 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-    protected $fillable = ['artist', 'title'];
+	protected $guarded = ['id'];
+    protected $fillable = [
+		'artist', 
+		'title',
+		'description',
+		'basic_cost',
+		'b2b_cost',
+		'images',
+		'audio',
+		'quantity_available',
+		'catalog',
+		'category',
+		'presale',
+		'b2b_enabled',
+		'direct_enabled'
+	];
 }

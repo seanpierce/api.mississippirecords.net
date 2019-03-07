@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item as Item;
+use Illuminate\Http\Response;
 
 class ItemController extends Controller
 {
@@ -19,19 +20,39 @@ class ItemController extends Controller
 
     public function getById($id)
     {
-        $item = Item::find($id);
-        return json_encode($item);
+        $item = Item::findOrFail($id);
+		return response($item, 200)
+			->header('Content-Type', 'json');
     }
 
     public function getAll() 
     {
-        $results = Item::all();
-        return json_encode($results);
+        $items = Item::all();
+		return response($items, 200)
+			->header('Content-Type', 'json');
     }
 
     public function create(Request $request)
     {
         Item::create(array_merge($request->all(), ['index' => 'value']));
-        return json_encode(true);
+		return response(json_encode(true), 200)
+			->header('Content-Type', 'json');
+	}
+	
+	public function update(Request $request)
+    {
+		$id = $request->id;
+		$item = Item::findOrFail($id);
+		$item->update(array_merge($request->all(), ['index' => 'value']));
+		return response(json_encode(true), 200)
+			->header('Content-Type', 'json');
+	}
+	
+	public function delete($id)
+    {
+		$item = Item::findOrFail($id);
+		$item->delete();
+		return response(json_encode(true), 200)
+			->header('Content-Type', 'json');
     }
 }

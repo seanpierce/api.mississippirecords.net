@@ -19,3 +19,5 @@ $router->get('/', function () use ($router) {
 $router->get('item', 'ItemController@getAll');
 $router->get('item/{id}', 'ItemController@getById');
 $router->post('item', 'ItemController@create');
+$router->put('item', 'ItemController@update');
+$router->delete('item/{id}', 'ItemController@delete');
