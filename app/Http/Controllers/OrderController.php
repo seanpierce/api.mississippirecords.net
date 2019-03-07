@@ -6,18 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Item as Item;
 use App\Models\Order as Order;
 
-class OrderConfirmationItem
-{
-	public $id;
-	public $artist;
-	public $title;
-	public $cost;
-	public $subtotal;
-	public $quantity_ordered;
-	public $quantity_available;
-	public $available;
-}
-
 class OrderController extends Controller
 {
 	private $auth;
@@ -91,7 +79,10 @@ class OrderController extends Controller
 
 	public function mark_shipped(Request $request)
 	{
-		$order = Order::findOrFail($request->id);
+		$this->auth->auth_admin($request);
+		
+		$id = $request->id;
+		$order = Order::findOrFail($id);
 
 		$order->shipped = true;
 		$order->tracking_number = $request->tracking_number;
@@ -101,4 +92,16 @@ class OrderController extends Controller
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');
 	}
+}
+
+class OrderConfirmationItem
+{
+	public $id;
+	public $artist;
+	public $title;
+	public $cost;
+	public $subtotal;
+	public $quantity_ordered;
+	public $quantity_available;
+	public $available;
 }

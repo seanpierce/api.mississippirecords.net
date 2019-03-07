@@ -29,5 +29,5 @@ php -S localhost:8000 -t public
 Generate a migration for the project's database
 
 ```shell
-php artisan make:migration create_or_update_table --table-some_table
+php artisan make:migration create_or_update_table --table=some_table
 ```
