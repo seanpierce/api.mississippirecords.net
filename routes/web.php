@@ -32,6 +32,7 @@ $router->delete('items/featured/{id}', 'FeaturedItemController@delete');
 $router->get('orders', 'OrderController@get_orders');
 $router->post('orders/confirm', 'OrderController@confirm_order_details');
 $router->post('orders/getstripedetails', 'OrderController@get_stripe_details');
+$router->post('orders/markshipped', 'OrderController@mark_shipped');
 
 // Users Routes
 $router->post('login', 'UserController@login');

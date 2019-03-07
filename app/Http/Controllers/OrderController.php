@@ -88,4 +88,17 @@ class OrderController extends Controller
 		return response(json_encode($order), 200)
 			->header('Content-Type', 'json');
 	}
+
+	public function mark_shipped(Request $request)
+	{
+		$order = Order::findOrFail($request->id);
+
+		$order->shipped = true;
+		$order->tracking_number = $request->tracking_number;
+
+		$order->save();
+
+		return response(json_encode(true), 200)
+			->header('Content-Type', 'json');
+	}
 }
