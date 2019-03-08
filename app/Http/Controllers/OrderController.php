@@ -125,7 +125,7 @@ class OrderController extends Controller
 		$order->tax = $request->tax;
 		$order->class = $request->b2b ? 'b2b' : 'direct';
 		
-		$key = config('STRIPE_SECRET_KEY');
+		$key = config('STRIPE_SK');
 		\Stripe\Stripe::setApiKey($key);
 
 		$charge = \Stripe\Charge::create([

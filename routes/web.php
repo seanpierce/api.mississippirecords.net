@@ -38,3 +38,6 @@ $router->post('orders/payment', 'OrderController@make_payment');
 // Users Routes
 $router->post('login', 'UserController@login');
 $router->post('users', 'UserController@get_user');
+
+// Email Routes
+$router->post('email/test', 'EmailController@send');
