@@ -23,9 +23,9 @@ $router->put('items', 'ItemController@update');
 $router->delete('items/{id}', 'ItemController@delete');
 
 // Featured Items Routes
-$router->get('items/featured', 'FeaturedItemController@getAll');
-$router->post('items/featured', 'FeaturedItemController@create');
-$router->delete('items/featured/{id}', 'FeaturedItemController@delete');
+$router->get('featured', 'FeaturedItemController@getAll');
+$router->post('featured', 'FeaturedItemController@create');
+$router->delete('featured/{id}', 'FeaturedItemController@delete');
 
 
 // Orders Routes
