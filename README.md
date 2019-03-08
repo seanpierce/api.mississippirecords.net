@@ -6,7 +6,7 @@ This project contains the source code for  PHP web API developed using the Lumen
 
 ### Running this project locally
 
-Download
+Download the project
 
 ```shell
 git clone https://github.com/seanpierce/lumen-api
