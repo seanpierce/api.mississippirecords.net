@@ -35,7 +35,7 @@ Move this project to the root of your server's directory
 mv lumen-api ~/Sites/lumen-api
 ```
 
-In your browser, navigate to the project via your server's localhost port: http://localhost:8888/lumen-api/`
+In your browser, navigate to the project via your server's localhost port: http://localhost:8888/lumen-api/
 
 #### Serve the projet locally using php's built-in web server
 
