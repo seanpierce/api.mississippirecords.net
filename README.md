@@ -27,6 +27,12 @@ Create and migrate the database
 php artisan migrate
 ```
 
+Seed the database
+
+```shell
+php artisan db:seed
+```
+
 #### Serve the project locally via MAMP or WAMP
 
 Move this project to the root of your server's directory
