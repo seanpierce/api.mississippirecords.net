@@ -1,6 +1,6 @@
 # PHP/ Lumen API
 
-This project contains the source code for  PHP web API developed using the Lumen framework. Dependencies are managed with Composer.
+This project contains the source code for  PHP web API developed using the Lumen framework with the Eloquent ORM. Dependencies are managed using Composer.
 
 ## Usage
 
