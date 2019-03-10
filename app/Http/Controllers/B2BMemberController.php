@@ -10,6 +10,7 @@ use App\Models\B2BMemberRequest as B2BMemberRequest;
 class B2BMemberController extends Controller
 {
 	private $auth;
+	private $emailer;
     /**
      * Create a new controller instance.
      *
@@ -17,7 +18,8 @@ class B2BMemberController extends Controller
      */
     public function __construct()
     {
-        $this->auth = new AuthController;
+		$this->auth = new AuthController;
+		$this->emailer = new EmailController;
 	}
 
 	public function create_b2b_member_request(Request $request)
@@ -27,6 +29,9 @@ class B2BMemberController extends Controller
 		$b2b_member_request = new B2BMemberRequest(array_merge($request->all(), ['index' => 'value']));
 		$b2b_member_request->password_hash = password_hash($request->password_hash, PASSWORD_BCRYPT);
 		$b2b_member_request->save();
+
+		// send new member request email
+		$this->emailer->send_new_member_request_email($b2b_member_request);
 
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');
