@@ -41,8 +41,13 @@ $router->post('users', 'UserController@get_user');
 $router->get('b2bmembers', 'B2BMemberController@get_b2b_members');
 $router->delete('b2bmembers', 'B2BMemberController@delete_b2b_member');
 $router->get('b2bmembers/address', 'B2BMemberController@get_b2b_member_address');
+$router->get('b2bmembers/requests', 'B2BMemberController@get_b2b_member_requests');
 $router->post('b2bmembers/request', 'B2BMemberController@create_b2b_member_request');
 $router->post('b2bmembers/approve', 'B2BMemberController@approve_b2b_member_request');
+$router->post('b2bmembers/deny', 'B2BMemberController@deny_b2b_member_request');
 
-// Email Routes
-$router->post('email/test', 'EmailController@send');
+// Posts Routes
+$router->get('posts/{page_name}', 'PostsController@get_page_posts');
+$router->post('posts', 'PostsController@create_page_post');
+$router->put('posts', 'PostsController@update_page_post');
+$router->delete('posts', 'PostsController@delete_page_post');
