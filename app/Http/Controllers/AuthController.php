@@ -18,7 +18,7 @@ class AuthController extends Controller
         //
     }
 
-    public function auth_admin(Request $request)
+    public function allow_admin(Request $request)
     {
         // get token from header
         $token_header = $request->header('token');
