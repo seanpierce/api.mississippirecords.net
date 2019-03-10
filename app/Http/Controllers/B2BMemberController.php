@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Token as Token;
 use App\Models\User as B2BMember;
 use App\Models\B2BMemberRequest as B2BMemberRequest;
+use App\Models\PasswordHash as PasswordHash;
 
 class B2BMemberController extends Controller
 {
@@ -38,7 +39,41 @@ class B2BMemberController extends Controller
 
 		$b2b_member = B2BMember::findOrFail($request->id);
 		$b2b_member->delete();
+
+		return response(json_encode(true), 200)
+			->header('Content-Type', 'json');
+	}
+
+	public function approve_b2b_member_request(Request $request)
+	{
+		$this->validate($request, B2BMemberValidation::approve_b2b_member_request);
+		$this->auth->allow_admin($request);
+
+		$b2b_member_request = B2BMemberRequest::findOrFail($request->id);
+
+		$b2b_member = new B2BMember;
+		$b2b_member->name = $b2b_member_request->name;
+		$b2b_member->email = $b2b_member_request->email;
+		$b2b_member->business_name = $b2b_member_request->business_name;
+		$b2b_member->shipping_address = $b2b_member_request->shipping_address;
+		$b2b_member->shipping_city = $b2b_member_request->shipping_city;
+		$b2b_member->shipping_state = $b2b_member_request->shipping_state;
+		$b2b_member->shipping_zip = $b2b_member_request->shipping_zip;
+		$b2b_member->class = 'B2B';
+		$b2b_member->approved_date = date("Y-m-d H:i:s");
+
+		$b2b_member->save();
+
+		PasswordHash::create([
+			'user_id' => $b2b_member->id,
+			'password_hash' => $b2b_member_request->password_hash
+		]);
+
+		// delete request
+		$b2b_member_request->delete();
 		
+		// send member approved email
+
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');
 	}
@@ -106,6 +141,10 @@ abstract class B2BMemberValidation
 	];
 
 	const delete_b2b_member = [
+		'id' => 'required',
+	];
+
+	const approve_b2b_member_request = [
 		'id' => 'required',
 	];
 }

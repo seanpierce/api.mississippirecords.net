@@ -42,6 +42,7 @@ $router->get('b2bmembers', 'B2BMemberController@get_b2b_members');
 $router->delete('b2bmembers', 'B2BMemberController@delete_b2b_member');
 $router->get('b2bmembers/address', 'B2BMemberController@get_b2b_member_address');
 $router->post('b2bmembers/request', 'B2BMemberController@create_b2b_member_request');
+$router->post('b2bmembers/approve', 'B2BMemberController@approve_b2b_member_request');
 
 // Email Routes
 $router->post('email/test', 'EmailController@send');
