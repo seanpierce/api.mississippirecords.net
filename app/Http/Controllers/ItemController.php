@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item as Item;
-use Illuminate\Http\Response;
 
 class ItemController extends Controller
 {
@@ -26,7 +25,7 @@ class ItemController extends Controller
 			->header('Content-Type', 'json');
     }
 
-    public function getAll(Request $request) 
+    public function getAll() 
     {
         $items = Item::all();
 		return response($items, 200)
