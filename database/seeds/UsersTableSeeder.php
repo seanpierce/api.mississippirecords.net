@@ -32,7 +32,7 @@ class UsersTableSeeder extends Seeder
 	
 	public function make_admins()
 	{
-		$email = 'admin@mississippirecords.com';
+		$email = 'admin@mississippirecords.net';
 		DB::table('users')->insert([
             'name' => 'Sean Admin',
             'email' => $email,
