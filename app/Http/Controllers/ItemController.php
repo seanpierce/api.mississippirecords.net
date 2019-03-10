@@ -35,6 +35,7 @@ class ItemController extends Controller
     public function create(Request $request)
     {
 		$this->auth->allow_admin($request);
+		$this->validate($request, ItemValidation::item);
         
         Item::create(array_merge($request->all(), ['index' => 'value']));
 		return response(json_encode(true), 200)
@@ -44,6 +45,7 @@ class ItemController extends Controller
 	public function update(Request $request)
     {
 		$this->auth->allow_admin($request);
+		$this->validate($request, ItemValidation::item);
 
 		$id = $request->id;
 		$item = Item::findOrFail($id);
@@ -52,7 +54,7 @@ class ItemController extends Controller
 			->header('Content-Type', 'json');
 	}
 	
-	public function delete($id)
+	public function delete(Request $request, $id)
     {
         $this->auth->allow_admin($request);
 
@@ -60,5 +62,24 @@ class ItemController extends Controller
 		$item->delete();
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');
-    }
+	}
+}
+
+abstract class ItemValidation
+{
+	const item = [
+		'artist' => 'required', 
+		'title' => 'required',
+		'description' => 'required',
+		'basic_cost' => 'required',
+		'b2b_cost' => 'required',
+		'images' => 'required',
+		// 'audio' => 'required',
+		'quantity_available' => 'required',
+		'catalog' => 'required',
+		'category' => 'required',
+		'presale' => 'required',
+		'b2b_enabled' => 'required',
+		'direct_enabled' => 'required'
+	];
 }
