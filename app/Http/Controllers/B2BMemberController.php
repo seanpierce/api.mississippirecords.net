@@ -44,6 +44,15 @@ class B2BMemberController extends Controller
 			->header('Content-Type', 'json');
 	}
 
+	public function get_b2b_member_requests(Request $request)
+	{
+		$this->auth->allow_admin($request);
+
+		$b2b_member_requests = B2BMemberRequest::all();
+		return response(json_encode($b2b_member_requests), 200)
+			->header('Content-Type', 'json');
+	}
+
 	public function approve_b2b_member_request(Request $request)
 	{
 		$this->validate($request, B2BMemberValidation::approve_b2b_member_request);
