@@ -66,6 +66,8 @@ class UsersTableSeeder extends Seeder
 				'shipping_state' => $this->faker->stateAbbr,
 				'shipping_zip' => $this->faker->postcode,
 				'business_name' => $this->faker->company . ' Records',
+				'created_at' => date("Y-m-d H:i:s"),
+				'updated_at' => date("Y-m-d H:i:s"),
 				'approved_date' => date("Y-m-d H:i:s")
 			]);
 
