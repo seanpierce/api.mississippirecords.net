@@ -22,6 +22,27 @@ class B2BMemberController extends Controller
 		$this->emailer = new EmailController;
 	}
 
+	public function get_b2b_members(Request $request)
+	{
+		$this->auth->allow_admin($request);
+
+		$members = B2BMember::where('class', 'B2B')->get();
+		return response(json_encode($members), 200)
+			->header('Content-Type', 'json');
+	}
+
+	public function delete_b2b_member(Request $request)
+	{
+		$this->validate($request, B2BMemberValidation::delete_b2b_member);
+		$this->auth->allow_admin($request);
+
+		$b2b_member = B2BMember::findOrFail($request->id);
+		$b2b_member->delete();
+		
+		return response(json_encode(true), 200)
+			->header('Content-Type', 'json');
+	}
+
 	public function create_b2b_member_request(Request $request)
 	{
 		$this->validate($request, B2BMemberValidation::create_new_b2b_member_request);
@@ -82,5 +103,9 @@ abstract class B2BMemberValidation
 		'shipping_state' => 'required',
 		'shipping_zip' => 'required',
 		'business_name' => 'required',
+	];
+
+	const delete_b2b_member = [
+		'id' => 'required',
 	];
 }

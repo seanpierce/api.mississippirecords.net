@@ -38,8 +38,10 @@ $router->post('orders/payment', 'OrderController@make_payment');
 // Users Routes
 $router->post('login', 'UserController@login');
 $router->post('users', 'UserController@get_user');
-$router->get('b2bmember/address', 'B2BMemberController@get_b2b_member_address');
-$router->post('b2bmember/request', 'B2BMemberController@create_b2b_member_request');
+$router->get('b2bmembers', 'B2BMemberController@get_b2b_members');
+$router->delete('b2bmembers', 'B2BMemberController@delete_b2b_member');
+$router->get('b2bmembers/address', 'B2BMemberController@get_b2b_member_address');
+$router->post('b2bmembers/request', 'B2BMemberController@create_b2b_member_request');
 
 // Email Routes
 $router->post('email/test', 'EmailController@send');
