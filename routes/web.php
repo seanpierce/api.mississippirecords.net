@@ -38,6 +38,7 @@ $router->post('orders/payment', 'OrderController@make_payment');
 // Users Routes
 $router->post('login', 'UserController@login');
 $router->post('users', 'UserController@get_user');
+$router->get('b2bmember/address', 'B2BMemberController@get_b2b_member_address');
 
 // Email Routes
 $router->post('email/test', 'EmailController@send');
