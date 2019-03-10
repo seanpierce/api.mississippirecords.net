@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\B2BMemberRequest as B2BMemberRequest;
+use App\Models\User as B2BMember;
 
 class EmailController extends Controller
 {
@@ -27,6 +28,11 @@ class EmailController extends Controller
 	}
 
 	public function send_new_member_request_email(B2BMemberRequest $b2b_member_request)
+	{
+		//
+	}
+
+	public function send_approved_b2b_member_request_email(B2BMember $b2b_member)
 	{
 		//
 	}
