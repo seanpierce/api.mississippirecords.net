@@ -70,3 +70,9 @@ Generate a migration for the project's database
 ```shell
 php artisan make:migration create_or_update_table --table=some_table
 ```
+
+### TODOs
+
+#### Set up Cors Middleware
+
+Allow only the three front-end projects (Admin, B2B, Direct) to access the API. Follow [this tutorial](https://www.codementor.io/chiemelachinedum/steps-to-enable-cors-on-a-lumen-api-backend-e5a0s1ecx).
