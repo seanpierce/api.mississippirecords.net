@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\B2BMemberRequest as B2BMemberRequest;
 
 class EmailController extends Controller
 {
@@ -21,6 +22,11 @@ class EmailController extends Controller
 	}
 	
 	public function send_order_confirmation_email()
+	{
+		//
+	}
+
+	public function send_new_member_request_email(B2BMemberRequest $b2b_member_request)
 	{
 		//
 	}
