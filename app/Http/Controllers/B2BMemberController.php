@@ -147,4 +147,8 @@ abstract class B2BMemberValidation
 	const approve_b2b_member_request = [
 		'id' => 'required',
 	];
+
+	const deny_b2b_member_request = [
+		'id' => 'required',
+	];
 }
