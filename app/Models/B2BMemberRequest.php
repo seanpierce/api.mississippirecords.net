@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class B2BMemberRequest extends Model
 {
+	protected $table = 'b2b_member_requests';
 	protected $guarded = ['id'];
     protected $fillable = [
 		'email', 
