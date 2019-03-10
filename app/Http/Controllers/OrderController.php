@@ -32,7 +32,9 @@ class OrderController extends Controller
 	}
 	
 	public function confirm_order_details(Request $request) 
-	{	
+	{
+		$this->validate($request, OrderValidation::confirm_order);
+		
 		$b2b = $request->b2b;
 		
 		// get items
@@ -97,22 +99,9 @@ class OrderController extends Controller
 
 	public function make_payment(Request $request)
 	{
-		$this->validate($request, [
-			'name' => 'required',
-			'email' => 'required',
-			'line_item_details' => 'required',
-			'shipping_address' => 'required',
-			'shipping_city' => 'required',
-			'shipping_state' => 'required',
-			'shipping_zip' => 'required',
-			'order_total' => 'required',
-			'shipping_total' => 'required',
-			'tax' => 'required',
-			'cc_number' => 'required',
-			'stripe_token' => 'required',
-		]);
+		$this->validate($request, OrderValidation::make_payment);
 
-		// create a new order from the request and save it
+		// create a new order from the request
 		$order = new Order;
 		$order->customer_name = $request->name;
 		$order->email = $request->email;
@@ -180,4 +169,26 @@ class OrderConfirmationItem
 	public $quantity_ordered;
 	public $quantity_available;
 	public $available;
+}
+
+abstract class OrderValidation
+{
+	const make_payment = [
+		'name' => 'required',
+		'email' => 'required',
+		'line_item_details' => 'required',
+		'shipping_address' => 'required',
+		'shipping_city' => 'required',
+		'shipping_state' => 'required',
+		'shipping_zip' => 'required',
+		'order_total' => 'required',
+		'shipping_total' => 'required',
+		'tax' => 'required',
+		'cc_number' => 'required',
+		'stripe_token' => 'required',
+	];
+
+	const confirm_order = [
+		'ids' => 'required',
+	];
 }
