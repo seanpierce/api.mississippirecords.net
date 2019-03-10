@@ -19,8 +19,15 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+		$this->truncate_user_tables();
 		$this->make_admins();
 		$this->make_b2b_members();
+	}
+
+	public function truncate_user_tables()
+	{
+		DB::table('users')->truncate();
+		DB::table('password_hashes')->truncate();
 	}
 	
 	public function make_admins()
