@@ -9,6 +9,7 @@ use App\Models\Order as Order;
 class OrderController extends Controller
 {
 	private $auth;
+	private $mailer;
     /**
      * Create a new controller instance.
      *
@@ -16,7 +17,8 @@ class OrderController extends Controller
      */
     public function __construct()
     {
-        $this->auth = new AuthController;
+		$this->auth = new AuthController;
+		$this->mailer = new EmailController;
 	}
 
 	public function get_orders(Request $request)
