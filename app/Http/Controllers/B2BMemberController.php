@@ -73,6 +73,21 @@ class B2BMemberController extends Controller
 		$b2b_member_request->delete();
 		
 		// send member approved email
+		$this->emailer->send_approved_b2b_member_request_email($b2b_member);
+
+		return response(json_encode(true), 200)
+			->header('Content-Type', 'json');
+	}
+
+	public function deny_b2b_member_request(Request $request)
+	{
+		$this->validate($request, B2BMemberValidation::deny_b2b_member_request);
+		$this->auth->allow_admin($request);
+
+		$b2b_member_request = B2BMemberRequest::findOrFail($request->id);
+
+		// delete request
+		$b2b_member_request->delete();
 
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');
