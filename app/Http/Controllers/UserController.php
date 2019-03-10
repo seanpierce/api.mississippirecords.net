@@ -29,16 +29,17 @@ class UserController extends Controller
    }
 
    public function login(Request $request)
-   {
+   { 
 		// get user by email
 		$user = User::where('email', $request->email)->first();
+
 		if (!$user)
-			throw Exception("User not found");
+			abort(401, 'Unauthorized action - User not found.');
 
 		// get user's password_hash
 		$hash = PasswordHash::where('user_id', $user->id)->first();
 		if (!$hash)
-			throw Exception("User not found");
+			abort(401, 'Unauthorized action - No password data available for user.');
 
 		// verify password
 		if (password_verify($request->password, $hash->password_hash)) {
