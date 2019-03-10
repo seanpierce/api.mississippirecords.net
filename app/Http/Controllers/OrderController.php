@@ -131,25 +131,42 @@ class OrderController extends Controller
 		\Stripe\Stripe::setApiKey($key);
 
 		$charge = \Stripe\Charge::create([
-			'amount' => $xxx,
+			'amount' => $order->order_total,
 			'currency' => 'usd',
 			'description' => "Order: $order->order_number | Customer: $order->customer_name",
-			'source' => $xxx->token,
-			'receipt_email' => $xxx->email,
+			'source' => $request->stripe_token,
+			'receipt_email' => $order->email,
 		]);
 
 		$paid = $charge['paid'] === true;
 	
-		if (!$paid) {
-			return response(json_encode(false), 401)
-				->header('Content-Type', 'json');
-		}
+		if (!$paid)
+			abort(401, 'Payment was unable to process.');
 
 		// update order record to include stripe transaction ID
+		$order->stripe_transaction_id = $charge['id'];
+		// save the order
+		$order->save();
 
 		// decrement stock
+		$this->decrement_stock($request->line_item_details);
 
 		// send order confirmation email
+		$this->mailer->send_order_confirmation_email();
+
+		return response(json_encode(true), 200)
+			->header('Content-Type', 'json');
+	}
+
+	private function decrement_stock($line_item_details)
+	{
+		foreach ($line_item_details as $line_item)
+		{
+			$item = Item::findOrFail($line_item['id']);
+			$quantity_ordered = $line_item['quantity_ordered'];
+			$item->quantity_available = $item->quantity_available - $quantity_ordered;
+			$item->save();
+		}
 	}
 }
 
