@@ -47,7 +47,7 @@ class ItemsTableSeeder extends Seeder
 			$item->description = $this->faker->realText($maxNbChars = 200, $indexSize = 2);
 			$item->basic_cost = $this->faker->numberBetween($min = 1000, $max = 4000);
 			$item->b2b_cost = $this->faker->numberBetween($min = 800, $max = 4000);
-			$item->images = 'https://picsum.photos/300/300';
+			$item->images = '79rsgang-fireonthebayou.jpg';
 			$item->audio = '';
 			$item->quantity_available = $this->faker->numberBetween($min = 10, $max = 100);
 			$item->catalog = $this->faker->randomLetter 
