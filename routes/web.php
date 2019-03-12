@@ -50,4 +50,4 @@ $router->post('b2bmembers/deny', 'B2BMemberController@deny_b2b_member_request');
 $router->get('posts/{page_name}', 'PostController@get_page_posts');
 $router->post('posts', 'PostController@create_post');
 $router->put('posts', 'PostController@update_post');
-$router->delete('posts', 'PostController@delete_page_post');
+$router->delete('posts', 'PostController@delete_post');

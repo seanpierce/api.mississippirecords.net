@@ -49,6 +49,19 @@ class PostController extends Controller
 			->header('Content-Type', 'json');
 	}
 
+	public function delete_post(Request $request)
+	{
+		$this->auth->allow_admin($request);
+		$this->validate($request, PostValidation::delete_post);
+
+		$id = $request->id;
+		$post = Post::findOrFail($id);
+		$post->delete();
+
+		return response(json_encode(true), 200)
+			->header('Content-Type', 'json');
+	}
+
 }
 
 abstract class PostValidation
@@ -62,5 +75,9 @@ abstract class PostValidation
 		'id' => 'required',
 		'page' => 'required',
 		'text' => 'required',
+	];
+
+	const delete_post = [
+		'id' => 'required',
 	];
 }
