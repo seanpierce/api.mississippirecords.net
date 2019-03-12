@@ -36,7 +36,6 @@ $router->post('orders/markshipped', 'OrderController@mark_shipped');
 $router->post('orders/payment', 'OrderController@make_payment');
 
 // Users Routes
-$router->post('login', 'UserController@login');
 $router->post('users', 'UserController@get_user');
 $router->get('b2bmembers', 'B2BMemberController@get_b2b_members');
 $router->delete('b2bmembers', 'B2BMemberController@delete_b2b_member');
@@ -46,8 +45,15 @@ $router->post('b2bmembers/request', 'B2BMemberController@create_b2b_member_reque
 $router->post('b2bmembers/approve', 'B2BMemberController@approve_b2b_member_request');
 $router->post('b2bmembers/deny', 'B2BMemberController@deny_b2b_member_request');
 
+// Auth Routes
+$router->post('login', 'UserController@login');
+$router->post('authorize/admin', 'AuthController@is_logged_in_admin');
+
 // Posts Routes
 $router->get('posts/{page_name}', 'PostController@get_page_posts');
 $router->post('posts', 'PostController@create_post');
 $router->put('posts', 'PostController@update_post');
 $router->delete('posts', 'PostController@delete_post');
+
+// Misc Routes
+$router->post('posts', 'UploadController@upload_file');
