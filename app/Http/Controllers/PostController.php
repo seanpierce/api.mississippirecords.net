@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post as Post;
 
-class ItemController extends Controller
+class PostController extends Controller
 {
     private $auth;
     /**
