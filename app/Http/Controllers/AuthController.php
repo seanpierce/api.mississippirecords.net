@@ -20,7 +20,7 @@ class AuthController extends Controller
 
     public function allow_admin(Request $request)
     {
-        $user = $this->get_user_from_valid_token($request);
+        $user = $this->get_user_from_valid_token($request, true);
 
         // is user class ADMIN?
         $is_admin = $user->class == 'ADMIN';
@@ -31,7 +31,7 @@ class AuthController extends Controller
 	
 	public function allow_b2b(Request $request)
     {
-        $user = $this->get_user_from_valid_token($request);
+        $user = $this->get_user_from_valid_token($request, true);
 
         // is user class ADMIN or B2B?
 		$is_admin = $user->class == 'ADMIN';
@@ -40,8 +40,24 @@ class AuthController extends Controller
         if (!$is_admin && !$is_b2b)
             abort(403, 'Unauthorized action.');
 	}
+
+	public function is_logged_in_admin(Request $request)
+	{
+		$this->allow_admin($request);
+
+		return response(json_encode(true), 200)
+			->header('Content-Type', 'json');
+	}
+
+	public function is_logged_in_b2b(Request $request)
+	{
+		$this->allow_b2b($request);
+
+		return response(json_encode(true), 200)
+			->header('Content-Type', 'json');
+	}
 	
-	private function get_user_from_valid_token(Request $request)
+	private function get_user_from_valid_token(Request $request, bool $refresh)
 	{
 		// get token from header
         $token_header = $request->header('token');
@@ -69,7 +85,9 @@ class AuthController extends Controller
         if (!$user)
 			abort(403, 'Unauthorized action.');
 
-		$token->save();	
+		if ($refresh)
+			$token->save();	
+			
 		return $user;
 	}
 }
