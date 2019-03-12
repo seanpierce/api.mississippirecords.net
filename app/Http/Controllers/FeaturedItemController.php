@@ -41,7 +41,7 @@ class FeaturedItemController extends Controller
 	
 	public function delete($id)
     {
-		$item = FeaturedItem::findOrFail($id);
+		$item = FeaturedItem::where('item_id', $id)->first();
 		$item->delete();
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');

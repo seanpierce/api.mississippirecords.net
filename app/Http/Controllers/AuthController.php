@@ -63,7 +63,7 @@ class AuthController extends Controller
         $token_header = $request->header('token');
         
         if (!$token_header)
-            abort(403, 'Unauthorized action.');
+            abort(403, 'Unauthorized action. Token not provided.');
         
         // get token from db
         $token = Token::where('token', $token_header)->first();

@@ -38,7 +38,7 @@ $router->post('orders/payment', 'OrderController@make_payment');
 // Users Routes
 $router->post('users', 'UserController@get_user');
 $router->get('b2bmembers', 'B2BMemberController@get_b2b_members');
-$router->delete('b2bmembers', 'B2BMemberController@delete_b2b_member');
+$router->post('b2bmembers/delete', 'B2BMemberController@delete_b2b_member');
 $router->get('b2bmembers/address', 'B2BMemberController@get_b2b_member_address');
 $router->get('b2bmembers/requests', 'B2BMemberController@get_b2b_member_requests');
 $router->post('b2bmembers/request', 'B2BMemberController@create_b2b_member_request');
@@ -56,4 +56,4 @@ $router->put('posts', 'PostController@update_post');
 $router->delete('posts', 'PostController@delete_post');
 
 // Misc Routes
-$router->post('posts', 'UploadController@upload_file');
+$router->post('upload', 'UploadController@upload_file');
