@@ -71,6 +71,10 @@ Generate a migration for the project's database
 php artisan make:migration create_or_update_table --table=some_table
 ```
 
+### Documentation
+
+Download the latest postman docs [here](https://www.getpostman.com/collections/80ed11f450a2ae156ba4).
+
 ### TODOs
 
 #### Set up Cors Middleware
