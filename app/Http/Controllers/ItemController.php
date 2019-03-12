@@ -20,14 +20,20 @@ class ItemController extends Controller
 
     public function getById($id)
     {
-        $item = Item::findOrFail($id);
+		$item = Item::findOrFail($id);
+		$item->images = explode("||", $item->images);
+
 		return response($item, 200)
 			->header('Content-Type', 'json');
     }
 
     public function getAll() 
     {
-        $items = Item::all();
+		$items = Item::all();
+		
+		foreach ($items as $item)
+			$item->images = explode("||", $item->images);
+
 		return response($items, 200)
 			->header('Content-Type', 'json');
     }
@@ -49,7 +55,22 @@ class ItemController extends Controller
 
 		$id = $request->id;
 		$item = Item::findOrFail($id);
-		$item->update(array_merge($request->all(), ['index' => 'value']));
+
+		$item->artist = $request->artist;
+		$item->title = $request->title;
+		$item->description = $request->description;
+		$item->basic_cost = $request->basic_cost * 100;
+		$item->b2b_cost = $request->b2b_cost * 100;
+		$item->images = implode("||", $request->images);
+		$item->audio = $request->audio;
+		$item->quantity_available = $request->quantity_available;
+		$item->catalog = $request->catalog;
+		$item->category = $request->category;
+		$item->presale = $request->presale;
+		$item->b2b_enabled = $request->b2b_enabled;
+		$item->direct_enabled = $request->direct_enabled;
+
+		$item->save();
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');
 	}
