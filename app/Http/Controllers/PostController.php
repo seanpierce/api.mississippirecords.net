@@ -20,27 +20,47 @@ class PostController extends Controller
 
     public function get_page_posts($page_name)
     {
-        $posts = Item::where('name', $page_name)->get();
+        $posts = Post::where('page', $page_name)->get();
 		return response($posts, 200)
 			->header('Content-Type', 'json');
-    }
+	}
+	
+	public function create_post(Request $request)
+	{
+		$this->auth->allow_admin($request);
+		$this->validate($request, PostValidation::create_post);
+
+		Post::create(array_merge($request->all(), ['index' => 'value']));
+
+		return response(json_encode(true), 200)
+			->header('Content-Type', 'json');
+	}
+
+	public function update_post(Request $request)
+	{
+		$this->auth->allow_admin($request);
+		$this->validate($request, PostValidation::update_post);
+
+		$id = $request->id;
+		$post = Post::findOrFail($id);
+		$post->update(array_merge($request->all(), ['index' => 'value']));
+
+		return response(json_encode(true), 200)
+			->header('Content-Type', 'json');
+	}
+
 }
 
-abstract class ItemValidation
+abstract class PostValidation
 {
-	const item = [
-		'artist' => 'required', 
-		'title' => 'required',
-		'description' => 'required',
-		'basic_cost' => 'required',
-		'b2b_cost' => 'required',
-		'images' => 'required',
-		// 'audio' => 'required',
-		'quantity_available' => 'required',
-		'catalog' => 'required',
-		'category' => 'required',
-		'presale' => 'required',
-		'b2b_enabled' => 'required',
-		'direct_enabled' => 'required'
+	const create_post = [
+		'page' => 'required',
+		'text' => 'required',
+	];
+
+	const update_post = [
+		'id' => 'required',
+		'page' => 'required',
+		'text' => 'required',
 	];
 }

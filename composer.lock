@@ -2167,16 +2167,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v6.30.4",
+            "version": "v6.30.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "0d9e2773b1df27d4f0c590b15bed3a1433e0414c"
+                "reference": "1ffc751e7ee2d68b3e4a0068f5537b8334945467"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/0d9e2773b1df27d4f0c590b15bed3a1433e0414c",
-                "reference": "0d9e2773b1df27d4f0c590b15bed3a1433e0414c",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/1ffc751e7ee2d68b3e4a0068f5537b8334945467",
+                "reference": "1ffc751e7ee2d68b3e4a0068f5537b8334945467",
                 "shasum": ""
             },
             "require": {
@@ -2219,7 +2219,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2019-02-27T18:07:30+00:00"
+            "time": "2019-03-11T20:45:23+00:00"
         },
         {
             "name": "symfony/console",
@@ -3045,16 +3045,16 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v3.3.2",
+            "version": "v3.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "1ee9369cfbf26cfcf1f2515d98f15fab54e9647a"
+                "reference": "dbcc609971dd9b55f48b8008b553d79fd372ddde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/1ee9369cfbf26cfcf1f2515d98f15fab54e9647a",
-                "reference": "1ee9369cfbf26cfcf1f2515d98f15fab54e9647a",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/dbcc609971dd9b55f48b8008b553d79fd372ddde",
+                "reference": "dbcc609971dd9b55f48b8008b553d79fd372ddde",
                 "shasum": ""
             },
             "require": {
@@ -3093,7 +3093,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2019-01-30T10:43:17+00:00"
+            "time": "2019-03-06T09:39:45+00:00"
         },
         {
             "name": "wn/lumen-generators",

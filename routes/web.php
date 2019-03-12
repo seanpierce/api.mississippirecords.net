@@ -47,7 +47,7 @@ $router->post('b2bmembers/approve', 'B2BMemberController@approve_b2b_member_requ
 $router->post('b2bmembers/deny', 'B2BMemberController@deny_b2b_member_request');
 
 // Posts Routes
-$router->get('posts/{page_name}', 'PostsController@get_page_posts');
-$router->post('posts', 'PostsController@create_page_post');
-$router->put('posts', 'PostsController@update_page_post');
-$router->delete('posts', 'PostsController@delete_page_post');
+$router->get('posts/{page_name}', 'PostController@get_page_posts');
+$router->post('posts', 'PostController@create_post');
+$router->put('posts', 'PostController@update_post');
+$router->delete('posts', 'PostController@delete_page_post');
