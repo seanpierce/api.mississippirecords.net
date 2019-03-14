@@ -48,6 +48,7 @@ $router->post('b2bmembers/deny', 'B2BMemberController@deny_b2b_member_request');
 // Auth Routes
 $router->post('login', 'UserController@login');
 $router->post('authorize/admin', 'AuthController@is_logged_in_admin');
+$router->post('authorize/b2b', 'AuthController@is_logged_in_b2b');
 
 // Posts Routes
 $router->get('posts/{page_name}', 'PostController@get_page_posts');
@@ -57,3 +58,4 @@ $router->delete('posts', 'PostController@delete_post');
 
 // Misc Routes
 $router->post('upload', 'UploadController@upload_file');
+$router->post('keys/stripe', 'KeysController@get_stripe_pk');

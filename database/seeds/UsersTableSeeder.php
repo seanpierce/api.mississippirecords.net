@@ -50,6 +50,28 @@ class UsersTableSeeder extends Seeder
 		$password_hash->password_hash = password_hash('test123', PASSWORD_BCRYPT);
 		$password_hash->user_id = $user->id;
 		$password_hash->save();
+
+		// create test b2b member
+		$email = 'test@testuser.com';
+		DB::table('users')->insert([
+			'name' => 'Test User',
+			'email' => $email,
+			'class' => 'B2B',
+			'shipping_address' => '123 W Test St.',
+			'shipping_city' => 'Portland',
+			'shipping_state' => 'OR',
+			'shipping_zip' => '97211',
+			'business_name' => 'Testman Records',
+			'created_at' => date("Y-m-d H:i:s"),
+			'updated_at' => date("Y-m-d H:i:s"),
+			'approved_date' => date("Y-m-d H:i:s")
+		]);
+
+		$user = User::where('email', $email)->first();
+		$password_hash = new PasswordHash;
+		$password_hash->password_hash = password_hash('test123', PASSWORD_BCRYPT);
+		$password_hash->user_id = $user->id;
+		$password_hash->save();
 	}
 
 	public function make_b2b_members()

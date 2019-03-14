@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item as Item;
 use App\Models\Order as Order;
+use App\Models\SubModels\OrderLineItem as OrderLineItem;
 
 class OrderController extends Controller
 {
@@ -35,8 +36,6 @@ class OrderController extends Controller
 	{
 		$this->validate($request, OrderValidation::confirm_order);
 		
-		$b2b = $request->b2b;
-		
 		// get items
 		$ids = array_count_values($request->ids);
 		$items = Item::whereIn('id', $request->ids)->get();
@@ -51,7 +50,7 @@ class OrderController extends Controller
 			$order_confirmation_item->id = $item->id;
 			$order_confirmation_item->artist = $item->artist;
 			$order_confirmation_item->title = $item->title;
-			$order_confirmation_item->cost = $b2b ? $item->b2b_cost : $item->basic_cost;
+			$order_confirmation_item->cost = $request->b2b ? $item->b2b_cost : $item->basic_cost;
 			$order_confirmation_item->quantity_available = $item->quantity_available;
 			$order_confirmation_item->quantity_ordered = $ids["$item->id"];
 			$order_confirmation_item->available = ($order_confirmation_item->quantity_ordered < $order_confirmation_item->quantity_available);
@@ -73,7 +72,7 @@ class OrderController extends Controller
 	{
 		$this->auth->auth_admin($request);
 
-		$key = config('STRIPE_SECRET_KEY');
+		$key = env('STRIPE_SECRET_KEY');
 		\Stripe\Stripe::setApiKey($key);
 
 		$order = \Stripe\Charge::retrieve($request->StripeTransactionId);
@@ -101,12 +100,14 @@ class OrderController extends Controller
 	{
 		$this->validate($request, OrderValidation::make_payment);
 
+		$line_item_details = $this->get_line_item_details($request->line_item_details);
+
 		// create a new order from the request
 		$order = new Order;
 		$order->customer_name = $request->name;
 		$order->email = $request->email;
 		$order->order_number = $order->generate_order_number();
-		$order->line_item_details = $order->get_line_item_details($request->line_item_details);
+		$order->line_item_details = json_encode($line_item_details);
 		$order->shipping_address = $request->shipping_address;
 		$order->shipping_city = $request->shipping_city;
 		$order->shipping_state = $request->shipping_state;
@@ -116,21 +117,26 @@ class OrderController extends Controller
 		$order->tax = $request->tax;
 		$order->class = $request->b2b ? 'b2b' : 'direct';
 		
-		$key = config('STRIPE_SK');
+		$key = env('STRIPE_SK');
 		\Stripe\Stripe::setApiKey($key);
 
-		$charge = \Stripe\Charge::create([
+		$stripe_details = [
 			'amount' => $order->order_total,
 			'currency' => 'usd',
 			'description' => "Order: $order->order_number | Customer: $order->customer_name",
 			'source' => $request->stripe_token,
 			'receipt_email' => $order->email,
-		]);
+			'metadata' => ['order_number' => $order->order_number],
+			'metadata' => ['customer_name' => $order->customer_name],
+			'metadata' => ['customer_email' => $order->customer_email],
+		];
 
-		$paid = $charge['paid'] === true;
+		$charge = \Stripe\Charge::create($stripe_details);
+
+		$success = $charge['paid'] === true;
 	
-		if (!$paid)
-			abort(401, 'Payment was unable to process.');
+		if (!$success)
+			abort(401, 'Unable to process payment');
 
 		// update order record to include stripe transaction ID
 		$order->stripe_transaction_id = $charge['id'];
@@ -138,10 +144,10 @@ class OrderController extends Controller
 		$order->save();
 
 		// decrement stock
-		$this->decrement_stock($request->line_item_details);
+		$this->decrement_stock($line_item_details);
 
-		// send order confirmation email
-		$this->mailer->send_order_confirmation_email();
+		// // send order confirmation email
+		// $this->mailer->send_order_confirmation_email();
 
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');
@@ -151,11 +157,21 @@ class OrderController extends Controller
 	{
 		foreach ($line_item_details as $line_item)
 		{
-			$item = Item::findOrFail($line_item['id']);
-			$quantity_ordered = $line_item['quantity_ordered'];
+			$item = Item::findOrFail($line_item->id);
+			$quantity_ordered = $line_item->quantity_ordered;
 			$item->quantity_available = $item->quantity_available - $quantity_ordered;
 			$item->save();
 		}
+	}
+
+	private function get_line_item_details($details)
+	{
+		$output = [];
+		foreach ($details as $detail) 
+		{
+			array_push($output, new OrderLineItem($detail));
+		};
+		return $output;
 	}
 }
 
@@ -184,7 +200,7 @@ abstract class OrderValidation
 		'order_total' => 'required',
 		'shipping_total' => 'required',
 		'tax' => 'required',
-		'cc_number' => 'required',
+		'card' => 'required',
 		'stripe_token' => 'required',
 	];
 

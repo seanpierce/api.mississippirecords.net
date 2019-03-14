@@ -20,26 +20,28 @@ class UserController extends Controller
         //
 	}
 	
-   public function get_user(Request $request) 
-   {	
+   	public function get_user(Request $request) 
+   	{	
 		$id = $request->id;
 		$user = User::findOrFail($id);
 		return response(json_encode($user), 200)
 			->header('Content-Type', 'json');
-   }
+   	}
 
-   public function login(Request $request)
-   { 
+   	public function login(Request $request)
+   	{ 
+		$this->validate($request, LoginValidation::login);
+
 		// get user by email
 		$user = User::where('email', $request->email)->first();
 
 		if (!$user)
-			abort(401, 'Unauthorized action - User not found.');
+			abort(401, 'Invalid email address');
 
 		// get user's password_hash
 		$hash = PasswordHash::where('user_id', $user->id)->first();
 		if (!$hash)
-			abort(401, 'Unauthorized action - No password data available for user.');
+			abort(401, 'Invalid credentials');
 
 		// verify password
 		if (password_verify($request->password, $hash->password_hash)) {
@@ -61,22 +63,29 @@ class UserController extends Controller
 				->header('Content-Type', 'json');
 		} else {
 			// login fail
-			return response(json_encode(false), 401)
-				->header('Content-Type', 'json'); 
+			abort(401, 'Invalid credentials');
 		}
-   }
+   	}
 
-   private function login_response(User $user, Token $token)
-   {
+	private function login_response(User $user, Token $token)
+	{
 		$response['name'] = $user->name;
 		$response['email'] = $user->email;
 		$response['token'] = $token->token;
 
 		return $response;
-   }
+	}
 
-   private function generate_token() 
-   {
+	private function generate_token() 
+	{
 	   return bin2hex(random_bytes(16)) . "-" . time();
-   }
+   	}
+}
+
+abstract class LoginValidation
+{
+	const login = [
+		'email' => 'required',
+		'password' => 'required',
+	];
 }

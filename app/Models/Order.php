@@ -34,11 +34,6 @@ class Order extends Model
 		$this->shipped = false;
 	}
 
-	public function get_line_item_details($details)
-	{
-		return $details;
-	}
-
 	public function generate_order_number()
 	{
 		return strtoupper(bin2hex(random_bytes(6)));
