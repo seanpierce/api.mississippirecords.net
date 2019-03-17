@@ -24,7 +24,7 @@ class OrderController extends Controller
 
 	public function get_orders(Request $request)
 	{
-		$this->auth->auth_admin($request);
+		$this->auth->allow_admin($request);
 
 		$orders = Order::orderBy('created_at', 'DESC')->get();
 
@@ -70,9 +70,9 @@ class OrderController extends Controller
 
 	public function get_stripe_details(Request $request) 
 	{
-		$this->auth->auth_admin($request);
+		$this->auth->allow_admin($request);
 
-		$key = env('STRIPE_SECRET_KEY');
+		$key = env('STRIPE_SK');
 		\Stripe\Stripe::setApiKey($key);
 
 		$order = \Stripe\Charge::retrieve($request->StripeTransactionId);
@@ -82,7 +82,7 @@ class OrderController extends Controller
 
 	public function mark_shipped(Request $request)
 	{
-		$this->auth->auth_admin($request);
+		$this->auth->allow_admin($request);
 
 		$id = $request->id;
 		$order = Order::findOrFail($id);
@@ -149,7 +149,7 @@ class OrderController extends Controller
 		// // send order confirmation email
 		// $this->mailer->send_order_confirmation_email();
 
-		return response(json_encode(true), 200)
+		return response(json_encode($order->order_number), 200)
 			->header('Content-Type', 'json');
 	}
 
