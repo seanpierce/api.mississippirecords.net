@@ -9,16 +9,13 @@ This project contains the source code for  PHP web API developed using the Lumen
 Download the project
 
 ```shell
-git clone https://github.com/seanpierce/lumen-api
+git clone https://github.com/seanpierce/api.mississippirecords.net
 ```
 
 Install dependencies
 
 ```shell
-# either
 composer update
-# or if that doesnt work
-composer install
 ```
 
 Create a mysql database and add the connection info to the `.env` file in the projetc's root
@@ -50,9 +47,9 @@ Move this project to the root of your server's directory
 mv lumen-api ~/Sites/lumen-api
 ```
 
-In your browser, navigate to the project via your server's localhost port: http://localhost:8888/lumen-api/
+In your browser, navigate to the project via your server's localhost port: [http://localhost:8888/lumen-api/](http://localhost:8888/lumen-api/)
 
-#### Serve the projet locally using php's built-in web server
+#### Serve the projet locally using php's built-in development server
 
 ```shell
 # from the public directory (default configuration)
@@ -61,22 +58,25 @@ php -S localhost:8000 -t public
 php -S localhost:8000
 ```
 
-In your browser, navigate to: http://localhost:8000/
+In your browser, navigate to: [http://localhost:8000/](http://localhost:8000/)
 
 ### Developing new features
 
 Generate a migration for the project's database
 
 ```shell
-php artisan make:migration create_or_update_table --table=some_table
+# Generate a migration for the project's database
+php artisan make:migration create_some_table
+# Specify a table to update with the "--table" flag
+php artisan make:migration update_some_table --table=some_table
 ```
 
 ### Documentation
 
-Download the latest postman docs [here](https://www.getpostman.com/collections/80ed11f450a2ae156ba4).
+Download the latest postman docs/ API request and response data [here](https://www.getpostman.com/collections/80ed11f450a2ae156ba4).
 
 ### TODOs
 
-#### Set up Cors Middleware
-
-Allow only the three front-end projects (Admin, B2B, Direct) to access the API. Follow [this tutorial](https://www.codementor.io/chiemelachinedum/steps-to-enable-cors-on-a-lumen-api-backend-e5a0s1ecx).
+* ~~Create and enable CORS midleware~~
+* Establish Pilot subdomain
+* Deploy API as a proof-of-concept
