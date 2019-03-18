@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Token as Token;
+
 class ItemTest extends TestCase
 {
     /**
