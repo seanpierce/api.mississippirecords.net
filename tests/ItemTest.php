@@ -31,4 +31,28 @@ class ItemTest extends TestCase
                 ]
             ]);
     }
+
+    public function testShouldReturnSingleItem()
+    {
+        $this->get("items/1", []);
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure([
+                'id',
+                'artist',
+                'title',
+                'created_at',
+                'updated_at',
+                'description',
+                'basic_cost',
+                'b2b_cost',
+                'images',
+                'audio',
+                'quantity_available',
+                'catalog',
+                'category',
+                'presale',
+                'b2b_enabled',
+                'direct_enabled',
+            ]);
+    }
 }
