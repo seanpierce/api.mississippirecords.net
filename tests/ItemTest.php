@@ -60,4 +60,38 @@ class ItemTest extends TestCase
                 'direct_enabled',
             ]);
     }
+
+    /**
+     * /items [POST]
+     */
+    public function testShouldCreateNewItem()
+    {
+        // create a user/ token combo
+        $token = factory('App\Models\Token')->create();
+
+        $parameters = [
+            'artist' => 'Test Artist',
+            'title' => 'Test Title',
+            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'basic_cost' => 2000,
+            'b2b_cost' => 1500,
+            'images' => ['my_image.jpg'],
+            'audio' => 'my_audio.mp3',
+            'quantity_available' => 100,
+            'catalog' => 'TEST-001',
+            'category' => 'mrecs',
+            'presale' => false,
+            'b2b_enabled' => true,
+            'direct_enabled' => true,
+        ];
+
+        $response = $this->post("items", $parameters, ['token' => $token->token])
+            ->response
+            ->getContent();
+
+        $content = filter_var($response, FILTER_VALIDATE_BOOLEAN);
+
+        $this->seeStatusCode(200);
+        $this->assertTrue($content);
+    }
 }
