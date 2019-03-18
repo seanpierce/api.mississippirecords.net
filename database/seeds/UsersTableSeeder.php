@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder
 	{
 		$email = 'admin@mississippirecords.net';
 		DB::table('users')->insert([
-            'name' => 'Sean Admin',
+            'name' => 'Test Admin',
             'email' => $email,
 			'class' => 'ADMIN',
 			'shipping_address' => '1234 W Test St.',
