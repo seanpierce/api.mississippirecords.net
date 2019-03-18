@@ -1,4 +1,4 @@
-# PHP/ Lumen API
+# api.mississippirecords.net
 
 This project contains the source code for  PHP web API developed using the [Lumen](https://lumen.laravel.com/) framework with the [Eloquent](https://laravel.com/docs/5.0/eloquent) ORM. Dependencies are managed using [Composer](https://getcomposer.org/).
 
