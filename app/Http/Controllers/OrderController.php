@@ -38,7 +38,9 @@ class OrderController extends Controller
 		
 		// get items
 		$ids = array_count_values($request->ids);
-		$items = Item::whereIn('id', $request->ids)->get();
+		$items = Item::whereIn('id', $request->ids)
+			->orderBy('artist', 'desc')
+			->get();
 
 		$total = 0;
 		$output = [];
