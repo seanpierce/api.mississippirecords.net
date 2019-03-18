@@ -1,5 +1,8 @@
 # api.mississippirecords.net
 
+> As hackneyed and precious as it may be interpreted, we actually believe that records can be  powerful hoodoo totemistic and utilitarian objects that can further the development of culture, revolution and spirituality. They can be more than just cultural commodities.  
+– Eric Isaacson, Mississippi Records
+
 This project contains the source code for  PHP web API developed using the [Lumen](https://lumen.laravel.com/) framework with the [Eloquent](https://laravel.com/docs/5.0/eloquent) ORM. Dependencies are managed using [Composer](https://getcomposer.org/).
 
 ## Usage
