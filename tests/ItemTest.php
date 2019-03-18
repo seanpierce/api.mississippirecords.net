@@ -34,9 +34,12 @@ class ItemTest extends TestCase
             ]);
     }
 
+    /**
+     * /items/[id] [GET]
+     */
     public function testShouldReturnSingleItem()
     {
-        $this->get("items/1", []);
+        $this->get("items/1");
         $this->seeStatusCode(200);
         $this->seeJsonStructure([
                 'id',
