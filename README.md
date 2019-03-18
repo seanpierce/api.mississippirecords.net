@@ -1,6 +1,6 @@
 # PHP/ Lumen API
 
-This project contains the source code for  PHP web API developed using the Lumen framework with the Eloquent ORM. Dependencies are managed using Composer.
+This project contains the source code for  PHP web API developed using the [Lumen](https://lumen.laravel.com/) framework with the [Eloquent](https://laravel.com/docs/5.0/eloquent) ORM. Dependencies are managed using [Composer](https://getcomposer.org/).
 
 ## Usage
 
@@ -80,3 +80,9 @@ Download the latest postman docs/ API request and response data [here](https://w
 * ~~Create and enable CORS midleware~~
 * Establish Pilot subdomain
 * Deploy API as a proof-of-concept
+
+---
+
+### Why keep this repo public?
+
+Besides being a staunch open-source advocate, it's important for me to keep a public-facing document of my progress with new (to me) technologies. It leads me to be more responsible with my development, and write cleaner code. Additionally, I aim to follow the [OWASP](https://www.owasp.org/) principal which encourages organizations to "[avoid security by obscurity](https://www.owasp.org/index.php/Avoid_security_by_obscurity)".

@@ -12,10 +12,10 @@ class UploadController extends Controller
 {
 	private $auth;
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+	 * Create a new controller instance.
+	 *
+	 * @return void
+	 */
 	public function __construct()
 	{
 		$this->auth = new AuthController;
