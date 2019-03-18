@@ -36,7 +36,7 @@ DB_PASSWORD=root
 php artisan migrate
 ```
 
-Seed the database
+Seed the database with placeholder data
 
 ```shell
 php artisan db:seed
@@ -47,10 +47,10 @@ php artisan db:seed
 Move this project to the root of your server's directory
 
 ```shell
-mv lumen-api ~/Sites/lumen-api
+mv api.mississippirecords.net ~/Sites/api.mississippirecords.net
 ```
 
-In your browser, navigate to the project via your server's localhost port: [http://localhost:8888/lumen-api/](http://localhost:8888/lumen-api/)
+In your browser, navigate to the project via your server's localhost port: [http://localhost:8888/api.mississippirecords.net/](http://localhost:8888/api.mississippirecords.net/)
 
 #### Serve the projet locally using php's built-in development server
 
