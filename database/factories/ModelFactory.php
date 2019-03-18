@@ -11,9 +11,9 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Token::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
+        'user_id' => 1,
+        'token' => bin2hex(random_bytes(16)) . "-" . time(),
     ];
 });
