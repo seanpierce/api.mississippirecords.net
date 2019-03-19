@@ -75,8 +75,8 @@ class ItemController extends Controller
 		$item->artist = $request->artist;
 		$item->title = $request->title;
 		$item->description = $request->description;
-		$item->basic_cost = $request->basic_cost * 100;
-		$item->b2b_cost = $request->b2b_cost * 100;
+		$item->basic_cost = $request->basic_cost;
+		$item->b2b_cost = $request->b2b_cost;
 		$item->images = implode("||", $request->images);
 		$item->audio = $request->audio;
 		$item->quantity_available = $request->quantity_available;
