@@ -7,7 +7,7 @@ class ItemTest extends TestCase
     /**
      * /items [GET]
      */
-    public function testShouldReturnAllItems()
+    public function test_should_show_all_items()
     {
         $this->get("items", []);
         $this->seeStatusCode(200);
@@ -37,7 +37,7 @@ class ItemTest extends TestCase
     /**
      * /items/[id] [GET]
      */
-    public function testShouldReturnSingleItem()
+    public function test_should_show_single_item()
     {
         $this->get("items/1");
         $this->seeStatusCode(200);
@@ -64,7 +64,7 @@ class ItemTest extends TestCase
     /**
      * /items [POST]
      */
-    public function testShouldCreateNewItem()
+    public function test_should_create_new_item()
     {
         // create a user/ token combo
         $token = factory('App\Models\Token')->create();
