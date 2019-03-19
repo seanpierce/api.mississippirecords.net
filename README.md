@@ -78,6 +78,12 @@ php artisan make:migration update_some_table --table=some_table
 
 Download the latest postman docs/ API request and response data [here](https://www.getpostman.com/collections/80ed11f450a2ae156ba4).
 
+### Testing
+
+```shell
+vendor/bin/phpunit
+```
+
 ### TODOs
 
 * ~~Create and enable CORS midleware~~
