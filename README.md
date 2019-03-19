@@ -81,7 +81,10 @@ Download the latest postman docs/ API request and response data [here](https://w
 ### Testing
 
 ```shell
+# Run the tests
 vendor/bin/phpunit
+#reset the database
+php artisan migrate:refresh --seed
 ```
 
 ### TODOs
