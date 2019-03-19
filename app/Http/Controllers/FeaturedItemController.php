@@ -42,7 +42,7 @@ class FeaturedItemController extends Controller
 			->header('Content-Type', 'json');
 	}
 	
-	public function delete($id)
+	public function delete(Request $request, $id)
     {
         $this->auth->allow_admin($request);
         
