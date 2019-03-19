@@ -13,7 +13,7 @@ class CreateB2bMemberRequestTable extends Migration
      */
     public function up()
     {
-        Schema::create('b2b_member_request', function (Blueprint $table) {
+        Schema::create('b2b_member_requests', function (Blueprint $table) {
 			$table->bigIncrements('id');
 			$table->string('email',128)->unique();
 			$table->string('name');
@@ -34,6 +34,6 @@ class CreateB2bMemberRequestTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('b2b_member_request');
+        Schema::dropIfExists('b2b_member_requests');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdatePasswordHashTableName extends Migration
+class CreatePasswordHashesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,12 @@ class UpdatePasswordHashTableName extends Migration
      */
     public function up()
     {
-        Schema::rename('password_hash', 'password_hashes');
+        Schema::create('password_hashes', function (Blueprint $table) {
+			$table->bigIncrements('id');
+			$table->integer('user_id');
+			$table->string('password_hashes');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +28,6 @@ class UpdatePasswordHashTableName extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('password_hashes');
     }
 }
