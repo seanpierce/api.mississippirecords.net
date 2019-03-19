@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 
 class FeaturedItemController extends Controller
 {
+    private $auth;
     /**
      * Create a new controller instance.
      *
@@ -16,7 +17,7 @@ class FeaturedItemController extends Controller
      */
     public function __construct()
     {
-        //
+        $this->auth = new AuthController;
     }
 
     public function getAll() 
@@ -34,6 +35,8 @@ class FeaturedItemController extends Controller
 
     public function create(Request $request)
     {
+        $this->auth->allow_admin($request);
+
         FeaturedItem::create(array_merge($request->all(), ['index' => 'value']));
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');
@@ -41,6 +44,8 @@ class FeaturedItemController extends Controller
 	
 	public function delete($id)
     {
+        $this->auth->allow_admin($request);
+        
 		$item = FeaturedItem::where('item_id', $id)->first();
 		$item->delete();
 		return response(json_encode(true), 200)
