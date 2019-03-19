@@ -16,7 +16,7 @@ class CreatePasswordHashesTable extends Migration
         Schema::create('password_hashes', function (Blueprint $table) {
 			$table->bigIncrements('id');
 			$table->integer('user_id');
-			$table->string('password_hashes');
+			$table->string('password_hash');
             $table->timestamps();
         });
     }
