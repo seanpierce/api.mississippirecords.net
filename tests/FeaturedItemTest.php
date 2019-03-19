@@ -59,4 +59,24 @@ class FeaturedItemTest extends TestCase
                 ]
             ]);
     }
+
+    /**
+     * /items [DELETE]
+     */
+    public function test_should_delete_existing_featured_item()
+    {
+        // create a user/ token combo
+        $token = factory('App\Models\Token')->create();
+
+        $item = Item::all()->last();
+
+        $response = $this->delete("featured/".$item->id, [], ['token' => $token->token])
+            ->response
+            ->getContent();
+
+        $content = filter_var($response, FILTER_VALIDATE_BOOLEAN);
+
+        $this->seeStatusCode(200);
+        $this->assertTrue($content);
+    }
 }
