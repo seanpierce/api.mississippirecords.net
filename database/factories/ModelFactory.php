@@ -17,3 +17,19 @@ $factory->define(App\Models\Token::class, function (Faker\Generator $faker) {
         'token' => bin2hex(random_bytes(16)) . "-" . time(),
     ];
 });
+
+$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'email' => $faker->safeEmail,
+        'class' => 'ADMIN',
+        'shipping_address' => '123 W Test St.',
+        'shipping_city' => 'Portland',
+        'shipping_state' => 'OR',
+        'shipping_zip' => '97211',
+        'business_name' => 'Testman Records',
+        'created_at' => date("Y-m-d H:i:s"),
+        'updated_at' => date("Y-m-d H:i:s"),
+        'approved_date' => date("Y-m-d H:i:s")
+		];
+});
