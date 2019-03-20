@@ -24,7 +24,10 @@ class EmailController extends Controller
         $this->email_headers = 'MIME-Version: 1.0'
         . "\n" . 'Content-type: text/html; charset=iso-8859-1'
         . "\n" . 'From: Sean\'s Test<noreply@test.com>'
-        . "\n";
+		. "\n";
+		
+		$this->validator = new CustomValidator;
+		$this->helpers = new CustomHelpers;
 	}
 	
 	public function send_order_confirmation_email()
