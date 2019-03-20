@@ -83,7 +83,11 @@ class B2BMemberController extends Controller
 		$b2b_member_request->delete();
 		
 		// send member approved email
-		$this->emailer->send_approved_b2b_member_request_email($b2b_member);
+		$email_parameters = [
+			'name' => $b2b_member->name,
+			'email' => $b2b_member->email
+		];
+		$this->emailer->send_approved_b2b_member_request_email($email_parameters);
 
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');

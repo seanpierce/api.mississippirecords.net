@@ -50,13 +50,25 @@ class EmailController extends Controller
 			"[Test] Thanks for requesting a B2B membership" :
 			"Thanks for requesting a B2B membership";
 
-		LOG::info("request_international_order sent to {$email_parameters['email']}");
+		LOG::info("send_new_member_request_email sent to {$email_parameters['email']}");
 		mail($email_parameters['email'], $subject, $email, $this->email_headers);
 	}
 
-	public function send_approved_b2b_member_request_email(B2BMember $b2b_member)
+	public function send_approved_b2b_member_request_email($email_parameters)
 	{
-		//
+		$this->validator->validate_pressence($email_parameters, [
+			'name', 
+			'email',
+		]);
+
+		$template = view('email/b2b_member_approved', $email_parameters);
+		$email = $this->build($template);
+		$subject = $this->debug ?
+			"[Test] Account request approved" :
+			"Account request approved";
+
+		LOG::info("send_approved_b2b_member_request_email sent to {$email_parameters['email']}");
+		mail($email_parameters['email'], $subject, $email, $this->email_headers);
 	}
 
 	public function send_international_order_request_to_admin($email_parameters)
@@ -76,7 +88,7 @@ class EmailController extends Controller
 			"[Test] Someone has requested to place a new international order" :
 			"Thanks Someone has requested to place a new international order";
 
-		LOG::info("request_international_order sent to {$email_parameters['email']}");
+		LOG::info("send_international_order_request_to_admin sent to {$email_parameters['email']}");
 		mail('orders@mississippirecords.net', $subject, $email, $this->email_headers);
 	}
 	
@@ -97,7 +109,7 @@ class EmailController extends Controller
 			"[Test] Thanks for requesting to place an international order" :
 			"Thanks for requesting to place an international order";
 
-		LOG::info("request_international_order sent to {$email_parameters['email']}");
+		LOG::info("send_international_order_email_to_customer sent to {$email_parameters['email']}");
 		mail($email_parameters['email'], $subject, $email, $this->email_headers);
 	}
 	

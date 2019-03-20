@@ -8,7 +8,7 @@ class B2BMemberTest extends TestCase
         parent::__construct();
         $this->faker = Faker\Factory::create();
     }
-    
+
     /**
      * @group b2bmember
      * /b2bmembers/request [POST]
@@ -27,6 +27,29 @@ class B2BMemberTest extends TestCase
         ];
 
         $response = $this->post('b2bmembers/request', $parameters)
+            ->response
+            ->getContent();
+
+        $content = filter_var($response, FILTER_VALIDATE_BOOLEAN);
+
+        $this->seeStatusCode(200);
+        $this->assertTrue($content);
+    }
+
+    /**
+     * @group b2bmember
+     * /b2bmembers/approve [POST]
+     */
+    public function test_should_approve_b2b_member_request()
+    {
+        // create a user/ token combo
+        $token = factory('App\Models\Token')->create();
+
+        $parameters = [
+            'id' => 1
+        ];
+
+        $response = $this->post('b2bmembers/approve', $parameters, ['token' => $token->token])
             ->response
             ->getContent();
 
