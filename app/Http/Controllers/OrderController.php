@@ -177,18 +177,6 @@ class OrderController extends Controller
 	}
 }
 
-class OrderConfirmationItem
-{
-	public $id;
-	public $artist;
-	public $title;
-	public $cost;
-	public $subtotal;
-	public $quantity_ordered;
-	public $quantity_available;
-	public $available;
-}
-
 abstract class OrderValidation
 {
 	const make_payment = [
