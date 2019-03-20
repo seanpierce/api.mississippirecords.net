@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use Illuminate\Http\Request;
 use App\Models\B2BMemberRequest as B2BMemberRequest;
 use App\Models\User as B2BMember;
+use App\Helpers\CustomValidator as CustomValidator;
+use App\Helpers\CustomHelpers as CustomHelpers;
 
 class EmailController extends Controller
 {
 	private $email_headers;
+	private $validator;
+	private $helpers;
     /**
      * Create a new controller instance.
      *
