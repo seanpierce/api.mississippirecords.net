@@ -81,10 +81,12 @@ Download the latest postman docs/ API request and response data [here](https://w
 ### Testing
 
 ```shell
+# Reset the database
+php artisan migrate:refresh --seed
 # Run the tests
 vendor/bin/phpunit
-#reset the database
-php artisan migrate:refresh --seed
+# Run a specific test group
+vendor/bin/phpunit --group=some_group_name
 ```
 
 ### TODOs
