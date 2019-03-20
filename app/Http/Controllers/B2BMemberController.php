@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use Illuminate\Http\Request;
 use App\Models\Token as Token;
 use App\Models\User as B2BMember;
@@ -111,7 +112,14 @@ class B2BMemberController extends Controller
 		$b2b_member_request->save();
 
 		// send new member request email
-		$this->emailer->send_new_member_request_email($b2b_member_request);
+		$email_parameters = [
+			'name' => $b2b_member_request->name,
+			'email' => $b2b_member_request->email,
+		];
+
+		Log::info(json_encode($email_parameters));
+
+		$this->emailer->send_new_member_request_email($email_parameters);
 
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');

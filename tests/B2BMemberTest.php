@@ -8,6 +8,7 @@ class B2BMemberTest extends TestCase
         parent::__construct();
         $this->faker = Faker\Factory::create();
     }
+    
     /**
      * @group b2bmember
      * /b2bmembers/request [POST]

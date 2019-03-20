@@ -37,9 +37,21 @@ class EmailController extends Controller
 		//
 	}
 
-	public function send_new_member_request_email(B2BMemberRequest $b2b_member_request)
+	public function send_new_member_request_email($email_parameters)
 	{
-		//
+		$this->validator->validate_pressence($email_parameters, [
+			'name', 
+			'email',
+		]);
+
+		$template = view('email/b2b_member_request_confirmation', $email_parameters);
+		$email = $this->build($template);
+		$subject = $this->debug ?
+			"[Test] Thanks for requesting a B2B membership" :
+			"Thanks for requesting a B2B membership";
+
+		LOG::info("request_international_order sent to {$email_parameters['email']}");
+		mail($email_parameters['email'], $subject, $email, $this->email_headers);
 	}
 
 	public function send_approved_b2b_member_request_email(B2BMember $b2b_member)
