@@ -2,7 +2,7 @@
 
 use App\Models\PasswordHash as PasswordHash;
 
-class UserTest extends TestCase
+class LoginTest extends TestCase
 {
     /**
      * @group login
@@ -22,8 +22,6 @@ class UserTest extends TestCase
             'email' => $user->email,
             'password' => 'test123'
         ];
-
-        Log::info(json_encode($parameters));
 
         $this->post('login', $parameters);
         $this->seeStatusCode(200);
