@@ -34,6 +34,7 @@ $router->post('orders/confirm', 'OrderController@confirm_order_details');
 $router->post('orders/getstripedetails', 'OrderController@get_stripe_details');
 $router->post('orders/markshipped', 'OrderController@mark_shipped');
 $router->post('orders/payment', 'OrderController@make_payment');
+$router->post('orders/international', 'OrderController@request_international_order');
 
 // Users Routes
 $router->post('users', 'UserController@get_user');
