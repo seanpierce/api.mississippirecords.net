@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Log;
+
 use App\Models\Item as Item;
 use App\Models\Order as Order;
 use App\Models\SubModels\OrderLineItem as OrderLineItem;
+use App\Models\SubModels\OrderConfirmationItem as OrderConfirmationItem;
 
 class OrderController extends Controller
 {
 	private $auth;
 	private $mailer;
+
     /**
      * Create a new controller instance.
      *
@@ -152,6 +156,27 @@ class OrderController extends Controller
 		// $this->mailer->send_order_confirmation_email();
 
 		return response(json_encode($order->order_number), 200)
+			->header('Content-Type', 'json');
+	}
+
+	public function request_international_order(Request $request)
+	{
+		$this->validate($request, OrderValidation::request_international_order);
+		
+		$order_total = array_sum(array_column($request->items, 'subtotal'));
+
+		$email_parameters = [
+			'name' => $request->name,
+			'email' => $request->email,
+			'items' => $request->items,
+			'order_total' => $order_total
+		];
+
+
+		// send international order email
+		$this->mailer->send_international_order_email($email_parameters);
+
+		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');
 	}
 
