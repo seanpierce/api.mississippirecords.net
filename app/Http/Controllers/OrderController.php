@@ -197,4 +197,10 @@ abstract class OrderValidation
 	const confirm_order = [
 		'ids' => 'required',
 	];
+
+	const request_international_order = [
+		'name' => 'required',
+		'email' => 'required',
+		'items' => 'required',
+	];
 }
