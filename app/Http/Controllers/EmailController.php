@@ -23,7 +23,7 @@ class EmailController extends Controller
     {
         $this->email_headers = 'MIME-Version: 1.0'
         . "\n" . 'Content-type: text/html; charset=iso-8859-1'
-        . "\n" . 'From: Sean\'s Test<noreply@test.com>'
+        . "\n" . 'From: Mississippi Records<noreply@mississippirecords.net>'
 		. "\n";
 		
 		$this->validator = new CustomValidator;
@@ -44,8 +44,26 @@ class EmailController extends Controller
 	{
 		//
 	}
+
+	public function send_international_order_request_to_admin($email_parameters)
+	{
+		$this->validator->validate_pressence($email_parameters, [
+			'name',
+			'email',
+			'items',
+			'order_total',
+		]);
+
+		$email_parameters['helpers'] = $this->helpers;
+
+		$template = view('email/request_international_order_admin', $email_parameters);
+		$email = $this->build($template);
+
+		LOG::info("request_international_order sent to {$email_parameters['email']}");
+		mail('orders@mississippirecords.net', 'Someone has requested to place a new international order', $email, $this->email_headers);
+	}
 	
-	public function send_international_order_email($email_parameters) 
+	public function send_international_order_email_to_customer($email_parameters) 
     {
 		$this->validator->validate_pressence($email_parameters, [
 			'name',
@@ -60,7 +78,7 @@ class EmailController extends Controller
 		$email = $this->build($template);
 
 		LOG::info("request_international_order sent to {$email_parameters['email']}");
-		mail('sumler.sean@gmail.com', 'A new test!!!', $email, $this->email_headers);
+		mail($email_parameters['email'], 'Thanks for requesting to place an international order', $email, $this->email_headers);
 	}
 	
 	private function build($template)

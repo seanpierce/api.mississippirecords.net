@@ -41,7 +41,10 @@ $table .= "
 
 ?>
 
-<p>Hi <?php echo $name; ?>,</p>
-<p>Thanks for requesting to place an international order. We'll contact you as soon as we can to discuss shipping options. We appreciate your support!</p>
+<p>A customer has requested to place a new international order!</p>
+<p>
+    Name: <?php echo $name; ?><br>
+    Email: <?php echo $email; ?>
+</p>
 
 <?php echo $table; ?>

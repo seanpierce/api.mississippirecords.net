@@ -172,9 +172,8 @@ class OrderController extends Controller
 			'order_total' => $order_total
 		];
 
-
-		// send international order email
-		$this->mailer->send_international_order_email($email_parameters);
+		$this->mailer->send_international_order_request_to_admin($email_parameters);
+		$this->mailer->send_international_order_email_to_customer($email_parameters);
 
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');
