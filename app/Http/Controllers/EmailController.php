@@ -14,6 +14,7 @@ class EmailController extends Controller
 	private $email_headers;
 	private $validator;
 	private $helpers;
+	private $debug;
     /**
      * Create a new controller instance.
      *
@@ -28,6 +29,7 @@ class EmailController extends Controller
 		
 		$this->validator = new CustomValidator;
 		$this->helpers = new CustomHelpers;
+		$this->debug = env('APP_DEBUG', true);
 	}
 	
 	public function send_order_confirmation_email()
@@ -58,9 +60,12 @@ class EmailController extends Controller
 
 		$template = view('email/request_international_order_admin', $email_parameters);
 		$email = $this->build($template);
+		$subject = $this->debug ?
+			"[Test] Someone has requested to place a new international order" :
+			"Thanks Someone has requested to place a new international order";
 
 		LOG::info("request_international_order sent to {$email_parameters['email']}");
-		mail('orders@mississippirecords.net', 'Someone has requested to place a new international order', $email, $this->email_headers);
+		mail('orders@mississippirecords.net', $subject, $email, $this->email_headers);
 	}
 	
 	public function send_international_order_email_to_customer($email_parameters) 
@@ -76,9 +81,12 @@ class EmailController extends Controller
 
 		$template = view('email/request_international_order', $email_parameters);
 		$email = $this->build($template);
+		$subject = $this->debug ?
+			"[Test] Thanks for requesting to place an international order" :
+			"Thanks for requesting to place an international order";
 
 		LOG::info("request_international_order sent to {$email_parameters['email']}");
-		mail($email_parameters['email'], 'Thanks for requesting to place an international order', $email, $this->email_headers);
+		mail($email_parameters['email'], $subject, $email, $this->email_headers);
 	}
 	
 	private function build($template)
