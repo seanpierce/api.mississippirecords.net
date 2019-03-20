@@ -45,26 +45,22 @@ class EmailController extends Controller
 		//
 	}
 	
-	public function send_international_order_email(Request $request) 
+	public function send_international_order_email($email_parameters) 
     {
-		$this->validate($request, [
-			'name' => 'required',
-			'email' => 'required'
+		$this->validator->validate_pressence($email_parameters, [
+			'name',
+			'email',
+			'items',
+			'order_total',
 		]);
 
-		$this->validate($request->items, [
-			'name' => 'required',
-			'email' => 'required'
-		]);
+		$email_parameters['helpers'] = $this->helpers;
 
-		$template = view('email/send', ['title' => $request->title, 'content' => $request->content]);
+		$template = view('email/request_international_order', $email_parameters);
 		$email = $this->build($template);
 
-		// mail(to, subject, body, headers);
-        mail('sumler.sean@gmail.com', 'A new test!!!', $email, $this->email_headers);
-
-        return response(json_encode(true), 200)
-            ->header('Content-Type', 'json');
+		LOG::info("request_international_order sent to {$email_parameters['email']}");
+		mail('sumler.sean@gmail.com', 'A new test!!!', $email, $this->email_headers);
 	}
 	
 	private function build($template)
