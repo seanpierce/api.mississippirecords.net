@@ -32,7 +32,12 @@ class EmailController extends Controller
 		$this->debug = env('APP_DEBUG', true);
 	}
 	
-	public function send_order_confirmation_email()
+	public function send_order_confirmation_email($email_parameters)
+	{
+		//
+	}
+
+	public function send_order_shipped_email($email_parameters)
 	{
 		//
 	}
