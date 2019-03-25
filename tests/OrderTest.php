@@ -19,6 +19,26 @@ class OrderTest extends TestCase
      */
     public function test_should_request_an_international_order()
     {
+        $items = $this->create_test_order_confirmation_items();
+
+        $parameters = [
+            'name' => 'Test Customer',
+            'email' => 'testemail@example.com',
+            'items' => $items,
+        ];
+
+        $response = $this->post('orders/international', $parameters)
+            ->response
+            ->getContent();
+
+        $content = filter_var($response, FILTER_VALIDATE_BOOLEAN);
+
+        $this->seeStatusCode(200);
+        $this->assertTrue($content);
+    }
+
+    private function create_test_order_confirmation_items()
+    {
         $items = [];
 
         for ($i = 0; $i < 3; $i ++)
@@ -36,21 +56,6 @@ class OrderTest extends TestCase
 
             array_push($items, $item);
         }
-
-
-        $parameters = [
-            'name' => 'Test Customer',
-            'email' => 'testemail@example.com',
-            'items' => $items,
-        ];
-
-        $response = $this->post('orders/international', $parameters)
-            ->response
-            ->getContent();
-
-        $content = filter_var($response, FILTER_VALIDATE_BOOLEAN);
-
-        $this->seeStatusCode(200);
-        $this->assertTrue($content);
+        return $items;
     }
 }

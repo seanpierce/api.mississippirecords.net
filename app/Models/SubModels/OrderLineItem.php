@@ -9,6 +9,7 @@ class OrderLineItem
 	public $title;
 	public $cost;
 	public $quantity_ordered;
+	public $subtotal;
 
 	public function __construct(array $payload)
 	{
@@ -17,5 +18,6 @@ class OrderLineItem
 		$this->title = $payload['title'];
 		$this->cost = $payload['cost'];
 		$this->quantity_ordered = $payload['quantity_ordered'];
+		$this->subtotal = $this->quantity_ordered * $this->cost;
 	}
 }

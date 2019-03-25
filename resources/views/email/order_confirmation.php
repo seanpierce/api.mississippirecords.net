@@ -24,7 +24,7 @@ $table = "
 
 $row = 1;
 
-foreach ($items as $item) {
+foreach ($line_item_details as $item) {
     $even = $row % 2 == 0;
 
     if ($even)

@@ -43,7 +43,7 @@ class OrderController extends Controller
 		// get items
 		$ids = array_count_values($request->ids);
 		$items = Item::whereIn('id', $request->ids)
-			->orderBy('artist', 'desc')
+			->orderBy('artist', 'asc')
 			->get();
 
 		$total = 0;
@@ -153,7 +153,17 @@ class OrderController extends Controller
 		$this->decrement_stock($line_item_details);
 
 		// // send order confirmation email
-		// $this->mailer->send_order_confirmation_email();
+		$email_parameters = [
+			'name' => $request->name,
+			'email' => $request->email,
+			'order_number' => $order->order_number,
+			'line_item_details' => $line_item_details,
+			'order_total' => $request->order_total,
+			'shipping_total' => $request->shipping_total,
+			'tax' => $request->tax,
+		];
+
+		$this->mailer->send_order_confirmation_email($email_parameters);
 
 		return response(json_encode($order->order_number), 200)
 			->header('Content-Type', 'json');

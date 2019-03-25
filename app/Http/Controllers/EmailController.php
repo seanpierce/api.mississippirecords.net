@@ -34,7 +34,26 @@ class EmailController extends Controller
 	
 	public function send_order_confirmation_email($email_parameters)
 	{
-		//
+		$this->validator->validate_pressence($email_parameters, [
+			'name', 
+			'email',
+			'order_number',
+			'line_item_details',
+			'order_total',
+			'shipping_total',
+			'tax',
+		]);
+
+		$email_parameters['helpers'] = $this->helpers;
+
+		$template = view('email/order_confirmation', $email_parameters);
+		$email = $this->build($template);
+		$subject = $this->debug ?
+			"[Test] Mississippi Records - Order placed: {$email_parameters['order_number']}" :
+			"Mississippi Records - Order placed: {$email_parameters['order_number']}";
+
+		LOG::info("send_order_confirmation_email sent to {$email_parameters['email']}");
+		mail($email_parameters['email'], $subject, $email, $this->email_headers);
 	}
 
 	public function send_order_shipped_email($email_parameters)
