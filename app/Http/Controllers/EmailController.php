@@ -115,7 +115,7 @@ class EmailController extends Controller
 		
 		// ensure that this email is set to admin email in .env
 		LOG::info("send_international_order_request_to_admin sent to {$email_parameters['email']}");
-		mail('orders@mississippirecords.net', $subject, $email, $this->email_headers);
+		mail(env('ORDERS_TO_EMAIL'), $subject, $email, $this->email_headers);
 	}
 	
 	public function send_international_order_email_to_customer($email_parameters) 
