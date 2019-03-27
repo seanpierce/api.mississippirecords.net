@@ -131,7 +131,6 @@ class B2BMemberController extends Controller
 	
 	public function get_b2b_member_address(Request $request) 
 	{	
-		Log::info('hit here');
 		$this->auth->allow_b2b($request);
 		
 		// get token from header
