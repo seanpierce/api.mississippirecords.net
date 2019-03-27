@@ -24,10 +24,10 @@ foreach ($items as $item) {
         $table .= "<tr>";
 
 	$table .= "
-        <td style=padding:4px;vertical-align:top;width:60%;>$item->artist - $item->title</td>
-        <td style=padding:4px;vertical-align:top;width:60%;text-align:right>\${$helpers->format_money($item->cost)}</td>
-        <td style=padding:4px;vertical-align:top;width:60%;text-align:right>$item->quantity_ordered</td>
-        <td style=padding:4px;vertical-align:top;width:60%;text-align:right>\${$helpers->format_money($item->subtotal)}</td>
+        <td style=padding:4px;vertical-align:top;width:60%;>{$item['artist']} - {$item['title']}</td>
+        <td style=padding:4px;vertical-align:top;width:60%;text-align:right>\${$helpers->format_money($item['cost'])}</td>
+        <td style=padding:4px;vertical-align:top;width:60%;text-align:right>{$item['quantity_ordered']}</td>
+        <td style=padding:4px;vertical-align:top;width:60%;text-align:right>\${$helpers->format_money($item['subtotal'])}</td>
 	</tr>
     ";
 
