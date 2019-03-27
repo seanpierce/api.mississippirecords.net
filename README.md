@@ -92,8 +92,9 @@ vendor/bin/phpunit --group=some_group_name
 ### TODOs
 
 * ~~Create and enable CORS midleware~~
-* Establish Pilot subdomain
-* Deploy API as a proof-of-concept
+* ~~Establish Pilot subdomain~~
+* ~~Deploy API as a proof-of-concept~~
+* Create email queue - although not necessary due to the small amount of trafic, it's a good practice and will come in useful when scaling
 
 ---
 
