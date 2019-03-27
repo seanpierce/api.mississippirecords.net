@@ -33,6 +33,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if ($this->shouldReport($exception))
+            $this->sendEmail($exception);
+
         parent::report($exception);
     }
 
@@ -59,5 +62,15 @@ class Handler extends ExceptionHandler
 		// 		'message' => $exception->getMessage(),
 		// 	]
 		// ]);
+    }
+
+    public function sendEmail(Exception $exception)
+    {
+        $headers = 'MIME-Version: 1.0'
+        . "\n" . 'Content-type: text/html; charset=iso-8859-1'
+        . "\n" . 'From: Mississippi Records<noreply@mississippirecords.net>'
+        . "\n";
+        
+        mail('sumler.sean@gmail.com', 'mrecs api error', $exception->getMessage(), $headers);
     }
 }

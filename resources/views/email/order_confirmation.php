@@ -44,14 +44,30 @@ foreach ($line_item_details as $item) {
 }
 
 $table .= "
-    </tbody>
-    <p style='font-weight:bold;'>Order Total: \${$helpers->format_money($order_total)}</p>
-    ";
+    <tr>
+        <td></td>
+        <td></td>
+        <td>Shipping</td>
+        <td>\${$helpers->format_money($shipping_total)}</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td>Tax</td>
+        <td>\${$helpers->format_money($tax)}</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td>Tax</td>
+        <td>\${$helpers->format_money($order_total)}</td>
+    </tr>
+    
+";
 
 ?>
 
 <p>Thanks for your order. Below you'll find the details:</p>
-<p><strong>Order Number:</strong> <?php echo $order_number; ?></p>
 
 <?php echo $table; ?>
 

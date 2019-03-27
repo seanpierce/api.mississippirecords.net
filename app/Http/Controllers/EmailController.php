@@ -97,6 +97,7 @@ class EmailController extends Controller
 
 	public function send_international_order_request_to_admin($email_parameters)
 	{
+		Log::info($email_parameters);
 		$this->validator->validate_pressence($email_parameters, [
 			'name',
 			'email',
@@ -111,7 +112,8 @@ class EmailController extends Controller
 		$subject = $this->debug ?
 			"[Test] Someone has requested to place a new international order" :
 			"Thanks Someone has requested to place a new international order";
-
+		
+		// ensure that this email is set to admin email in .env
 		LOG::info("send_international_order_request_to_admin sent to {$email_parameters['email']}");
 		mail('orders@mississippirecords.net', $subject, $email, $this->email_headers);
 	}
