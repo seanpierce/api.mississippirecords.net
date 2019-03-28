@@ -29,7 +29,7 @@ class ItemController extends Controller
 
     public function getAll() 
     {
-		$items = Item::all();
+		$items = Item::orderBy('artist', 'asc')->get();
 		
 		foreach ($items as $item)
 			$item->images = explode("||", $item->images);
