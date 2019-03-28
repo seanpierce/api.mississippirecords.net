@@ -36,6 +36,7 @@ foreach ($items as $item) {
 
 $table .= "
     </tbody>
+    </table>
     <p style='font-weight:bold;'>Order Total: \${$helpers->format_money($order_total)}</p>
     ";
 

@@ -62,7 +62,8 @@ $table .= "
         <td>Tax</td>
         <td>\${$helpers->format_money($order_total)}</td>
     </tr>
-    
+    </tbody>
+    </table>
 ";
 
 ?>
