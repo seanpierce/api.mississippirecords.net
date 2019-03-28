@@ -59,7 +59,7 @@ class OrderController extends Controller
 			$order_confirmation_item->cost = $request->b2b ? $item->b2b_cost : $item->basic_cost;
 			$order_confirmation_item->quantity_available = $item->quantity_available;
 			$order_confirmation_item->quantity_ordered = $ids["$item->id"];
-			$order_confirmation_item->available = ($order_confirmation_item->quantity_ordered < $order_confirmation_item->quantity_available);
+			$order_confirmation_item->available = ($order_confirmation_item->quantity_ordered <= $order_confirmation_item->quantity_available);
 			$order_confirmation_item->subtotal = $order_confirmation_item->cost * $order_confirmation_item->quantity_ordered;
 
 			array_push($output, $order_confirmation_item);
