@@ -20,21 +20,22 @@ class UploadController extends Controller
 	{
 		$this->auth = new AuthController;
 	}
-	
+
 	public function upload_file(Request $request)
 	{
 		$this->auth->allow_admin($request);
-		
+
 		$files = $_FILES;
 
 		foreach ($files as $file)
 		{
 			$temp = $file['tmp_name'];
-			$name = $file['name'];
-			$path = 'uploads/' . basename($name);
+            $name = $file['name'];
+            $basename = str_replace(' ', '-', basename($name));
+			$path = 'uploads/' . $basename;
 			move_uploaded_file($temp, $path);
 		}
-			
+
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');
 	}
