@@ -1,14 +1,5 @@
 <?php
 
-// email needs:
-// - order number
-// - items
-// - helpers class
-// - order total
-// - customer name
-// - shipping
-// - tax
-
 $table = "	
 <table style=width:100%;border-collapse:collapse;table-layout:fixed;>
 <thead style=border-bottom:1px;border-color:lightgrey;margin-bottom:12px;>
