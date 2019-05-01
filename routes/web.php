@@ -55,7 +55,7 @@ $router->post('authorize/b2b', 'AuthController@is_logged_in_b2b');
 $router->get('posts/{page_name}', 'PostController@get_page_posts');
 $router->post('posts', 'PostController@create_post');
 $router->put('posts', 'PostController@update_post');
-$router->delete('posts', 'PostController@delete_post');
+$router->delete('posts/{id}', 'PostController@delete_post');
 
 // Misc Routes
 $router->post('upload', 'UploadController@upload_file');

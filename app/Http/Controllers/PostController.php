@@ -24,13 +24,19 @@ class PostController extends Controller
 		return response($posts, 200)
 			->header('Content-Type', 'json');
 	}
-	
+
 	public function create_post(Request $request)
 	{
 		$this->auth->allow_admin($request);
 		$this->validate($request, PostValidation::create_post);
 
-		Post::create(array_merge($request->all(), ['index' => 'value']));
+        $request->image = str_replace(' ', '-', $request->image);
+		Post::create([
+            'page' => $request->page,
+            'text' => $request->text,
+            'image' => str_replace(' ', '-', $request->image),
+            'link' => $request->link
+        ]);
 
 		return response(json_encode(true), 200)
 			->header('Content-Type', 'json');
@@ -49,12 +55,13 @@ class PostController extends Controller
 			->header('Content-Type', 'json');
 	}
 
-	public function delete_post(Request $request)
+	public function delete_post(Request $request, Int $id)
 	{
 		$this->auth->allow_admin($request);
-		$this->validate($request, PostValidation::delete_post);
 
-		$id = $request->id;
+        if (!$id)
+            abort(400, 'Input data invalid');
+
 		$post = Post::findOrFail($id);
 		$post->delete();
 
