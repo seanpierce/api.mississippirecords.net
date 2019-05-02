@@ -95,6 +95,7 @@ vendor/bin/phpunit --group=some_group_name
 * ~~Establish Pilot subdomain~~
 * ~~Deploy API as a proof-of-concept~~
 * Create email queue - although not necessary due to the small amount of trafic, it's a good practice and will come in useful when scaling
+* Implement repository design pattern, creating a data access layer, via [this article](https://medium.com/employbl/use-the-repository-design-pattern-in-a-laravel-application-13f0b46a3dce).
 
 ---
 
