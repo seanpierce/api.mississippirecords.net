@@ -6,3 +6,5 @@ Homestead.yaml
 
 uploads/*
 !uploads/.keep
+
+\.DS_Store
