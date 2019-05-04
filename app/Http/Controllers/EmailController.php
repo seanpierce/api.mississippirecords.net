@@ -26,16 +26,16 @@ class EmailController extends Controller
         . "\n" . 'Content-type: text/html; charset=iso-8859-1'
         . "\n" . 'From: Mississippi Records<noreply@mississippirecords.net>'
 		. "\n";
-		
+
 		$this->validator = new CustomValidator;
 		$this->helpers = new CustomHelpers;
 		$this->debug = env('APP_DEBUG', true);
 	}
-	
+
 	public function send_order_confirmation_email($email_parameters)
 	{
 		$this->validator->validate_pressence($email_parameters, [
-			'name', 
+			'name',
 			'email',
 			'order_number',
 			'line_item_details',
@@ -52,8 +52,8 @@ class EmailController extends Controller
 			"[Test] Mississippi Records - Order placed: {$email_parameters['order_number']}" :
 			"Mississippi Records - Order placed: {$email_parameters['order_number']}";
 
-		LOG::info("send_order_confirmation_email sent to {$email_parameters['email']}");
-		mail($email_parameters['email'], $subject, $email, $this->email_headers);
+        mail($email_parameters['email'], $subject, $email, $this->email_headers);
+        LOG::info("send_order_confirmation_email complete to {$email_parameters['email']}");
 	}
 
 	public function send_order_shipped_email($email_parameters)
@@ -64,7 +64,7 @@ class EmailController extends Controller
 	public function send_new_member_request_email($email_parameters)
 	{
 		$this->validator->validate_pressence($email_parameters, [
-			'name', 
+			'name',
 			'email',
 		]);
 
@@ -81,7 +81,7 @@ class EmailController extends Controller
 	public function send_approved_b2b_member_request_email($email_parameters)
 	{
 		$this->validator->validate_pressence($email_parameters, [
-			'name', 
+			'name',
 			'email',
 		]);
 
@@ -112,13 +112,13 @@ class EmailController extends Controller
 		$subject = $this->debug ?
 			"[Test] Someone has requested to place a new international order" :
 			"Thanks Someone has requested to place a new international order";
-		
+
 		// ensure that this email is set to admin email in .env
 		LOG::info("send_international_order_request_to_admin sent to {$email_parameters['email']}");
 		mail(env('ORDERS_TO_EMAIL'), $subject, $email, $this->email_headers);
 	}
-	
-	public function send_international_order_email_to_customer($email_parameters) 
+
+	public function send_international_order_email_to_customer($email_parameters)
     {
 		$this->validator->validate_pressence($email_parameters, [
 			'name',
@@ -138,7 +138,7 @@ class EmailController extends Controller
 		LOG::info("send_international_order_email_to_customer sent to {$email_parameters['email']}");
 		mail($email_parameters['email'], $subject, $email, $this->email_headers);
 	}
-	
+
 	private function build($template)
 	{
 		$header = view('email/partials/header', []);
