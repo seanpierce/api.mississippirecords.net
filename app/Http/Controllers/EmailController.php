@@ -8,6 +8,7 @@ use App\Models\B2BMemberRequest as B2BMemberRequest;
 use App\Models\User as B2BMember;
 use App\Helpers\CustomValidator as CustomValidator;
 use App\Helpers\CustomHelpers as CustomHelpers;
+use PHPUnit\Framework\MockObject\Stub\Exception;
 
 class EmailController extends Controller
 {
@@ -47,13 +48,12 @@ class EmailController extends Controller
 		$email_parameters['helpers'] = $this->helpers;
 
 		$template = view('email/order_confirmation', $email_parameters);
-		$email = $this->build($template);
+		$body = $this->build($template);
 		$subject = $this->debug ?
 			"[Test] Mississippi Records - Order placed: {$email_parameters['order_number']}" :
 			"Mississippi Records - Order placed: {$email_parameters['order_number']}";
 
-        mail($email_parameters['email'], $subject, $email, $this->email_headers);
-        LOG::info("send_order_confirmation_email complete to {$email_parameters['email']}");
+        $this->send_mail($email_parameters, $subject, $body);
 	}
 
 	public function send_order_shipped_email($email_parameters)
@@ -69,13 +69,12 @@ class EmailController extends Controller
 		]);
 
 		$template = view('email/b2b_member_request_confirmation', $email_parameters);
-		$email = $this->build($template);
+		$body = $this->build($template);
 		$subject = $this->debug ?
 			"[Test] Thanks for requesting a B2B membership" :
 			"Thanks for requesting a B2B membership";
 
-		LOG::info("send_new_member_request_email sent to {$email_parameters['email']}");
-		mail($email_parameters['email'], $subject, $email, $this->email_headers);
+        $this->send_mail($email_parameters, $subject, $body);
 	}
 
 	public function send_approved_b2b_member_request_email($email_parameters)
@@ -86,13 +85,12 @@ class EmailController extends Controller
 		]);
 
 		$template = view('email/b2b_member_approved', $email_parameters);
-		$email = $this->build($template);
+		$body = $this->build($template);
 		$subject = $this->debug ?
 			"[Test] Account request approved" :
 			"Account request approved";
 
-		LOG::info("send_approved_b2b_member_request_email sent to {$email_parameters['email']}");
-		mail($email_parameters['email'], $subject, $email, $this->email_headers);
+        $this->send_mail($email_parameters, $subject, $body);
 	}
 
 	public function send_international_order_request_to_admin($email_parameters)
@@ -108,14 +106,12 @@ class EmailController extends Controller
 		$email_parameters['helpers'] = $this->helpers;
 
 		$template = view('email/request_international_order_admin', $email_parameters);
-		$email = $this->build($template);
+		$body = $this->build($template);
 		$subject = $this->debug ?
 			"[Test] Someone has requested to place a new international order" :
 			"Thanks Someone has requested to place a new international order";
 
-		// ensure that this email is set to admin email in .env
-		LOG::info("send_international_order_request_to_admin sent to {$email_parameters['email']}");
-		mail(env('ORDERS_TO_EMAIL'), $subject, $email, $this->email_headers);
+        $this->send_mail($email_parameters, $subject, $body, env('ORDERS_TO_EMAIL'));
 	}
 
 	public function send_international_order_email_to_customer($email_parameters)
@@ -130,13 +126,12 @@ class EmailController extends Controller
 		$email_parameters['helpers'] = $this->helpers;
 
 		$template = view('email/request_international_order', $email_parameters);
-		$email = $this->build($template);
+		$body = $this->build($template);
 		$subject = $this->debug ?
 			"[Test] Thanks for requesting to place an international order" :
 			"Thanks for requesting to place an international order";
 
-		LOG::info("send_international_order_email_to_customer sent to {$email_parameters['email']}");
-		mail($email_parameters['email'], $subject, $email, $this->email_headers);
+        $this->send_mail($email_parameters, $subject, $body);
 	}
 
 	private function build($template)
@@ -145,5 +140,23 @@ class EmailController extends Controller
 		$footer = view('email/partials/footer', []);
 
 		return $header . $template . $footer;
-	}
+    }
+
+    private function send_mail($email_parameters, $subject, $email, $override_to_address = null)
+    {
+        try
+        {
+            if ($override_to_address)
+                mail($override_to_address, $subject, $email, $this->email_headers);
+            else
+                mail($email_parameters['email'], $subject, $email, $this->email_headers);
+
+            LOG::info("'$subject' sent to {$email_parameters['email']}");
+        }
+        catch(Exception $ex)
+        {
+            Log::error("Email error - '$subject': $ex");
+            Log::error("Email error details: ${json_encode($email_parameters)}");
+        }
+    }
 }
