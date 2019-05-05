@@ -14,7 +14,7 @@ class AddPropertiesToItemsTable extends Migration
     public function up()
     {
         Schema::table('items', function (Blueprint $table) {
-			$table->string('description');
+			$table->longText('description');
 			$table->float('basic_cost', 8, 2);
 			$table->float('b2b_cost', 8, 2);
 			$table->string('images');
