@@ -146,12 +146,14 @@ class EmailController extends Controller
     {
         try
         {
-            if ($override_to_address)
+            if ($override_to_address) {
                 mail($override_to_address, $subject, $email, $this->email_headers);
-            else
+                LOG::info("'$subject' sent to $override_to_address");
+            } else {
                 mail($email_parameters['email'], $subject, $email, $this->email_headers);
+                LOG::info("'$subject' sent to {$email_parameters['email']}");
+            }
 
-            LOG::info("'$subject' sent to {$email_parameters['email']}");
         }
         catch(Exception $ex)
         {
