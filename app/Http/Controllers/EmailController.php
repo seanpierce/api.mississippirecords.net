@@ -35,23 +35,23 @@ class EmailController extends Controller
 
 	public function send_order_confirmation_email($email_parameters)
 	{
-		$this->validator->validate_pressence($email_parameters, [
-			'name',
-			'email',
-			'order_number',
-			'line_item_details',
-			'order_total',
-			'shipping_total',
-			'tax',
-		]);
+        $this->validator->validate_pressence($email_parameters, [
+            'name',
+            'email',
+            'order_number',
+            'line_item_details',
+            'order_total',
+            'shipping_total',
+            'tax',
+        ]);
 
-		$email_parameters['helpers'] = $this->helpers;
+        $email_parameters['helpers'] = $this->helpers;
 
-		$template = view('email/order_confirmation', $email_parameters);
-		$body = $this->build($template);
-		$subject = $this->debug ?
-			"[Test] Mississippi Records - Order placed: {$email_parameters['order_number']}" :
-			"Mississippi Records - Order placed: {$email_parameters['order_number']}";
+        $template = view('email/order_confirmation', $email_parameters);
+        $body = $this->build($template);
+        $subject = $this->debug ?
+            "[Test] Mississippi Records - Order placed: {$email_parameters['order_number']}" :
+            "Mississippi Records - Order placed: {$email_parameters['order_number']}";
 
         $this->send_mail($email_parameters, $subject, $body);
 	}
@@ -157,8 +157,9 @@ class EmailController extends Controller
         }
         catch(Exception $ex)
         {
-            Log::error("Email error - '$subject': $ex");
-            Log::error("Email error details: ${json_encode($email_parameters)}");
+            $data = json_encode($email_parameters);
+            Log::error("Email error! '$subject': {$ex->getMessage()}");
+            Log::error("Email error data: $data");
         }
     }
 }
