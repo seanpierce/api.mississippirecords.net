@@ -26,20 +26,23 @@ class OrderController extends Controller
 		$this->mailer = new EmailController;
 	}
 
-	public function get_orders(Request $request)
+	public function get_orders(Request $request, $pagination = null)
 	{
-		$this->auth->allow_admin($request);
+        $this->auth->allow_admin($request);
 
-		$orders = Order::orderBy('created_at', 'DESC')->get();
+        if ($pagination != null)
+            $orders = Order::orderBy('created_at', 'DESC')->take($pagination)->get();
+        else
+            $orders = Order::orderBy('created_at', 'DESC')->get();
 
 		return response(json_encode($orders), 200)
 			->header('Content-Type', 'json');
 	}
-	
-	public function confirm_order_details(Request $request) 
+
+	public function confirm_order_details(Request $request)
 	{
 		$this->validate($request, OrderValidation::confirm_order);
-		
+
 		// get items
 		$ids = array_count_values($request->ids);
 		$items = Item::whereIn('id', $request->ids)
@@ -74,7 +77,7 @@ class OrderController extends Controller
 			->header('Content-Type', 'json');
 	}
 
-	public function get_stripe_details(Request $request) 
+	public function get_stripe_details(Request $request)
 	{
 		$this->auth->allow_admin($request);
 
@@ -122,7 +125,7 @@ class OrderController extends Controller
 		$order->shipping_total = $request->shipping_total;
 		$order->tax = $request->tax;
 		$order->class = $request->b2b ? 'b2b' : 'direct';
-		
+
 		$key = env('STRIPE_SK');
 		\Stripe\Stripe::setApiKey($key);
 
@@ -140,7 +143,7 @@ class OrderController extends Controller
 		$charge = \Stripe\Charge::create($stripe_details);
 
 		$success = $charge['paid'] === true;
-	
+
 		if (!$success)
 			abort(401, 'Unable to process payment');
 
@@ -172,7 +175,7 @@ class OrderController extends Controller
 	public function request_international_order(Request $request)
 	{
 		$this->validate($request, OrderValidation::request_international_order);
-		
+
 		$order_total = array_sum(array_column($request->items, 'subtotal'));
 
 		$email_parameters = [
@@ -203,7 +206,7 @@ class OrderController extends Controller
 	private function get_line_item_details($details)
 	{
 		$output = [];
-		foreach ($details as $detail) 
+		foreach ($details as $detail)
 		{
 			array_push($output, new OrderLineItem($detail));
 		};

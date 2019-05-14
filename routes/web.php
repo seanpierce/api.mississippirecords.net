@@ -30,6 +30,7 @@ $router->delete('featured/{id}', 'FeaturedItemController@delete');
 
 // Orders Routes
 $router->get('orders', 'OrderController@get_orders');
+$router->get('orders/{pagination}', 'OrderController@get_orders');
 $router->post('orders/confirm', 'OrderController@confirm_order_details');
 $router->post('orders/getstripedetails', 'OrderController@get_stripe_details');
 $router->post('orders/markshipped', 'OrderController@mark_shipped');
