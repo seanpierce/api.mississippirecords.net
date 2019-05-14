@@ -58,7 +58,19 @@ class EmailController extends Controller
 
 	public function send_order_shipped_email($email_parameters)
 	{
-		//
+        $this->validator->validate_pressence($email_parameters, [
+            'email',
+            'order_number',
+            'tracking_number'
+        ]);
+
+        $template = view('email/order_shipped', $email_parameters);
+        $body = $this->build($template);
+        $subject = $this->debug ?
+            "[Test] You order has been shipped!" :
+            "You order has been shipped!";
+
+        $this->send_mail($email_parameters, $subject, $body);
 	}
 
 	public function send_new_member_request_email($email_parameters)
