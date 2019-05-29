@@ -94,7 +94,8 @@ vendor/bin/phpunit --group=some_group_name
 * ~~Create and enable CORS midleware~~
 * ~~Establish Pilot subdomain~~
 * ~~Deploy API as a proof-of-concept~~
-* Create email queue - although not necessary due to the small amount of trafic, it's a good practice and will come in useful when scaling
+* Develop more meaningful unit tests. Reference [this article](https://www.cloudways.com/blog/laravel-unit-testing/).
+* Create email queue, or employ email queuing service.
 * Implement repository design pattern, creating a data access layer, via [this article](https://medium.com/employbl/use-the-repository-design-pattern-in-a-laravel-application-13f0b46a3dce).
 
 ---
